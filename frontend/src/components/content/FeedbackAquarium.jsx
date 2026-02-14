@@ -6,6 +6,8 @@ export default function FeedbackAquarium({ refreshKey }) {
   const [feedbacks, setFeedbacks] = useState([]);
   const [poppedIds, setPoppedIds] = useState(new Set());
   const [modalFeedback, setModalFeedback] = useState(null);
+  const [draggedBubble, setDraggedBubble] = useState(null);
+  const [draggedPositions, setDraggedPositions] = useState({});
 
   // Load feedback from API on mount and when refreshKey changes
   useEffect(() => {
@@ -67,6 +69,46 @@ export default function FeedbackAquarium({ refreshKey }) {
     setModalFeedback(fb);
   }, []);
 
+  // Drag handlers
+  const handleMouseDown = useCallback((e, id) => {
+    if (e.button !== 0 || !containerRef.current) return; // Only left mouse button
+    e.preventDefault();
+    setDraggedBubble(id);
+  }, []);
+
+  const handleMouseMove = useCallback((e) => {
+    if (!draggedBubble || !containerRef.current) return;
+    
+    const rect = containerRef.current.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    
+    // Constrain to aquarium bounds (5%-85% for width, 5%-80% for height)
+    const boundedX = Math.max(5, Math.min(85, x));
+    const boundedY = Math.max(5, Math.min(80, y));
+    
+    setDraggedPositions((prev) => ({
+      ...prev,
+      [draggedBubble]: { left: `${boundedX}%`, top: `${boundedY}%` },
+    }));
+  }, [draggedBubble]);
+
+  const handleMouseUp = useCallback(() => {
+    setDraggedBubble(null);
+  }, []);
+
+  // Add event listeners for dragging
+  useEffect(() => {
+    if (draggedBubble) {
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('mouseup', handleMouseUp);
+      return () => {
+        window.removeEventListener('mousemove', handleMouseMove);
+        window.removeEventListener('mouseup', handleMouseUp);
+      };
+    }
+  }, [draggedBubble, handleMouseMove, handleMouseUp]);
+
   const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
 
   return (
@@ -80,7 +122,8 @@ export default function FeedbackAquarium({ refreshKey }) {
         {feedbacks.map((fb, index) => {
           const id = fb.id || index;
           const isPopped = poppedIds.has(id);
-          const pos = getPosition(index, feedbacks.length);
+          const isDragging = draggedBubble === id;
+          const pos = draggedPositions[id] || getPosition(index, feedbacks.length);
           const animDuration = 8 + (index % 3) * 2;
           const animDelay = (index % 5) * 0.5;
 
@@ -88,15 +131,17 @@ export default function FeedbackAquarium({ refreshKey }) {
             <div
               key={id}
               className="feedback-bubble-wrapper"
+              onMouseDown={(e) => handleMouseDown(e, id)}
               style={{
                 position: 'absolute',
                 left: pos.left,
                 top: pos.top,
                 opacity: isPopped ? 0 : 1,
-                transform: isPopped ? 'scale(0)' : 'scale(1)',
-                transition: 'all 0.3s ease',
+                transform: isPopped ? 'scale(0)' : isDragging ? 'scale(1.1)' : 'scale(1)',
+                transition: isDragging ? 'none' : 'all 0.3s ease',
                 pointerEvents: isPopped ? 'none' : 'all',
-                animation: isPopped ? 'none' : `float ${animDuration}s ease-in-out ${animDelay}s infinite`,
+                animation: isPopped || isDragging ? 'none' : `float ${animDuration}s ease-in-out ${animDelay}s infinite`,
+                cursor: isDragging ? 'grabbing' : 'grab',
               }}
             >
               {/* The circle itself - single click to pop, double click to show details */}
