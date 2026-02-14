@@ -1858,7 +1858,7 @@ body::-webkit-scrollbar {
         inset 0 -28px 4px -24px rgba(100, 180, 230, 0.5),
         inset 30px -28px 5px -24px rgba(90, 170, 230, 0.7),
         inset -30px -28px 5px -24px rgba(90, 170, 230, 0.7);
-    overflow: hidden;
+    overflow: visible;
     transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
@@ -3015,7 +3015,7 @@ body::-webkit-scrollbar {
         inset 0 -28px 4px -24px rgba(var(--theme-light), 0.5),
         inset 30px -28px 5px -24px rgba(var(--theme-light), 0.7),
         inset -30px -28px 5px -24px rgba(var(--theme-light), 0.7);
-    overflow: hidden;
+    overflow: visible;
     transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
