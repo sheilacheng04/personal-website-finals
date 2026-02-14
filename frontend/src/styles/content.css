@@ -1250,13 +1250,13 @@ body::-webkit-scrollbar {
     cursor: pointer;
     transition: all 0.4s ease;
     flex-shrink: 0;
-    width: 140px;
+    width: clamp(120px, 15vw, 140px);
     opacity: 0.6;
     transform: scale(0.85);
 }
 
 .poster-card.center {
-    width: 160px;
+    width: clamp(140px, 18vw, 160px);
     opacity: 1;
     transform: scale(1);
     z-index: 10;
@@ -1671,13 +1671,13 @@ body::-webkit-scrollbar {
 /* Feedback Aquarium Container Wrapper */
 .projects-feedback-aquarium-container {
     position: relative;
-    width: 90%;
-    max-width: 800px;
+    width: 100%;
+    max-width: 100%;
     margin: 40px auto 40px auto;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 40px;
+    padding: 40px 20px;
     background: rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(40px) saturate(180%);
     -webkit-backdrop-filter: blur(40px) saturate(180%);
@@ -2984,8 +2984,8 @@ body::-webkit-scrollbar {
 /* Feedback Aquarium Container with Lids */
 .feedback-aquarium {
     position: relative;
-    width: min(55%, 750px);
-    max-width: 750px;
+    width: 100%;
+    max-width: 100%;
     aspect-ratio: 750 / 380;
     min-height: 380px;
     margin: 0 auto;
@@ -3182,7 +3182,7 @@ body::-webkit-scrollbar {
 
 /* Feedback Circles in Aquarium */
 .feedback-circles-container {
-    position: absolute;
+    position: relative;
     width: 100%;
     height: 100%;
     top: 0;
@@ -3253,6 +3253,53 @@ body::-webkit-scrollbar {
     -webkit-line-clamp: 3;
     line-clamp: 3;
     -webkit-box-orient: vertical;
+}
+
+.feedback-circle-pop {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: rgba(255, 100, 100, 0.8);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    font-size: 16px;
+    line-height: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.2s ease;
+    z-index: 10;
+    padding: 0;
+}
+
+.feedback-circle:hover .feedback-circle-pop {
+    opacity: 1;
+}
+
+.feedback-circle-pop:hover {
+    background: rgba(255, 80, 80, 1);
+    transform: scale(1.1);
+}
+
+/* Floating animation for feedback circles */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px) translateX(0px) rotate(0deg);
+    }
+    25% {
+        transform: translateY(-15px) translateX(10px) rotate(2deg);
+    }
+    50% {
+        transform: translateY(-25px) translateX(-5px) rotate(-1deg);
+    }
+    75% {
+        transform: translateY(-10px) translateX(-15px) rotate(1deg);
+    }
 }
 
 /* Swimming animations for feedback circles - More contained */
@@ -3579,14 +3626,14 @@ html {
     /* Projects section mobile */
     .projects-section {
         min-height: auto;
-        padding: 20px 20px 40px;
+        padding: 20px 15px 40px;
     }
     
     .projects-carousel-container,
     .projects-fourth-container,
     .projects-contact-links-container {
-        padding: 30px 20px;
-        min-height: 300px;
+        padding: 20px 15px;
+        min-height: 250px;
     }
     
     .projects-section-title {
@@ -3595,12 +3642,104 @@ html {
     
     /* Feedback aquarium mobile */
     .feedback-aquarium {
-        width: 90%;
-        max-width: 90vw;
-        min-height: 300px;
+        width: 100%;
+        max-width: 100%;
+        min-height: 280px;
+        padding: 20px 10px;
+    }
+    
+    .projects-feedback-aquarium-container {
+        padding: 20px 10px;
+        width: 100%;
     }
     
     .feedback-circle {
+        width: 60px;
+        height: 60px;
+        padding: 8px;
+    }
+    
+    .feedback-circle-name {
+        font-size: 9px;
+    }
+    
+    .feedback-circle-message {
+        font-size: 7px;
+    }
+    
+    .feedback-circle-pop {
+        width: 18px;
+        height: 18px;
+        font-size: 14px;
+    }
+    
+    /* Poster gallery mobile */
+    .poster-card {
+        width: clamp(100px, 25vw, 120px);
+    }
+    
+    .poster-card.center {
+        width: clamp(120px, 30vw, 140px);
+    }
+    
+    /* Form elements mobile */
+    .form-input,
+    .form-textarea {
+        font-size: 14px;
+        padding: 12px 16px;
+    }
+    
+    .feedback-title {
+        font-size: clamp(1.2rem, 4vw, 1.5rem);
+    }
+    
+    /* Modal responsive */
+    .feedback-modal-content {
+        max-width: 90%;
+        padding: 30px 20px;
+    }
+    
+    .feedback-modal-content h3 {
+        font-size: clamp(20px, 6vw, 28px);
+    }
+    
+    .feedback-modal-email {
+        font-size: 14px;
+    }
+    
+    .feedback-modal-message {
+        font-size: 16px;
+    }
+}
+
+/* Tablet Responsive Styles */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .section {
+        padding: 80px 40px;
+    }
+    
+    .projects-section {
+        padding: 40px 30px;
+    }
+    
+    .feedback-aquarium {
+        width: 100%;
+        max-width: 100%;
+    }
+    
+    .projects-feedback-aquarium-container {
+        width: 100%;
+        padding: 30px 20px;
+    }
+    
+    .poster-card {
+        width: clamp(130px, 12vw, 140px);
+    }
+    
+    .poster-card.center {
+        width: clamp(150px, 14vw, 160px);
+    }
+}
         width: clamp(80px, 15vw, 100px);
         height: clamp(80px, 15vw, 100px);
         padding: clamp(8px, 2vw, 12px);
