@@ -1858,7 +1858,7 @@ body::-webkit-scrollbar {
         inset 0 -28px 4px -24px rgba(100, 180, 230, 0.5),
         inset 30px -28px 5px -24px rgba(90, 170, 230, 0.7),
         inset -30px -28px 5px -24px rgba(90, 170, 230, 0.7);
-    overflow: visible;
+    overflow: hidden;
     transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
@@ -3015,7 +3015,7 @@ body::-webkit-scrollbar {
         inset 0 -28px 4px -24px rgba(var(--theme-light), 0.5),
         inset 30px -28px 5px -24px rgba(var(--theme-light), 0.7),
         inset -30px -28px 5px -24px rgba(var(--theme-light), 0.7);
-    overflow: visible;
+    overflow: hidden;
     transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
@@ -3182,17 +3182,56 @@ body::-webkit-scrollbar {
 
 /* Feedback Circles in Aquarium */
 .feedback-circles-container {
-    position: relative;
+    position: absolute;
     width: 100%;
     height: 100%;
     top: 0;
     left: 0;
     pointer-events: none;
     z-index: 5;
+    overflow: hidden;
+}
+
+/* Wrapper for each bubble - holds both the pop button outside and the circle */
+.feedback-bubble-wrapper {
+    position: absolute;
+    pointer-events: all;
+    z-index: 5;
+}
+
+/* Pop button - positioned OUTSIDE and above the circle */
+.feedback-bubble-pop-btn {
+    position: absolute;
+    top: -12px;
+    right: -8px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(255, 100, 100, 0.85);
+    color: white;
+    border: 1.5px solid rgba(255, 255, 255, 0.6);
+    font-size: 16px;
+    line-height: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.2s ease;
+    z-index: 20;
+    padding: 0;
+}
+
+.feedback-bubble-wrapper:hover .feedback-bubble-pop-btn {
+    opacity: 1;
+}
+
+.feedback-bubble-pop-btn:hover {
+    background: rgba(255, 60, 60, 1);
+    transform: scale(1.2);
 }
 
 .feedback-circle {
-    position: absolute;
     width: 80px;
     height: 80px;
     border-radius: 50%;
@@ -3208,20 +3247,11 @@ body::-webkit-scrollbar {
     align-items: center;
     justify-content: center;
     padding: 10px;
-    cursor: grab;
+    cursor: pointer;
     pointer-events: all;
     transition: all 0.3s ease;
     overflow: hidden;
     user-select: none;
-}
-
-.feedback-circle.dragging {
-    cursor: grabbing;
-    z-index: 100;
-    transform: scale(1.1);
-    box-shadow: 
-        0 15px 50px 0 rgba(31, 38, 135, 0.6),
-        inset 0 0 30px rgba(100, 180, 255, 0.3);
 }
 
 .feedback-circle:hover {
@@ -3255,50 +3285,19 @@ body::-webkit-scrollbar {
     -webkit-box-orient: vertical;
 }
 
-.feedback-circle-pop {
-    position: absolute;
-    top: 2px;
-    right: 2px;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: rgba(255, 100, 100, 0.8);
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    font-size: 16px;
-    line-height: 16px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: all 0.2s ease;
-    z-index: 10;
-    padding: 0;
-}
-
-.feedback-circle:hover .feedback-circle-pop {
-    opacity: 1;
-}
-
-.feedback-circle-pop:hover {
-    background: rgba(255, 80, 80, 1);
-    transform: scale(1.1);
-}
-
-/* Floating animation for feedback circles */
+/* Floating animation for feedback circles - constrained movement */
 @keyframes float {
     0%, 100% {
-        transform: translateY(0px) translateX(0px) rotate(0deg);
+        transform: translateY(0px) translateX(0px);
     }
     25% {
-        transform: translateY(-15px) translateX(10px) rotate(2deg);
+        transform: translateY(-8px) translateX(5px);
     }
     50% {
-        transform: translateY(-25px) translateX(-5px) rotate(-1deg);
+        transform: translateY(-12px) translateX(-3px);
     }
     75% {
-        transform: translateY(-10px) translateX(-15px) rotate(1deg);
+        transform: translateY(-5px) translateX(-8px);
     }
 }
 
@@ -3755,5 +3754,110 @@ html {
     .overlay-link {
         min-height: 44px;
         min-width: 44px;
+    }
+    
+    /* Always show pop buttons on touch */
+    .feedback-bubble-pop-btn {
+        opacity: 1;
+    }
+}
+
+/* =============================================
+   FEEDBACK SECTION - Above Back to Top
+   ============================================= */
+.feedback-section {
+    position: relative;
+    width: 100%;
+    padding: 60px 20px 40px;
+    z-index: 5;
+}
+
+.feedback-section-wrapper {
+    display: flex;
+    gap: 30px;
+    align-items: stretch;
+    justify-content: center;
+    width: 90%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.feedback-aquarium-side {
+    flex: 1.5;
+    min-width: 0;
+}
+
+.feedback-form-side {
+    flex: 1;
+    min-width: 0;
+    background: radial-gradient(circle at 30% 30%, 
+        rgba(255, 255, 255, 0.14), 
+        rgba(var(--theme-light), 0.10) 50%, 
+        rgba(var(--theme-dark), 0.08) 100%);
+    backdrop-filter: blur(40px) saturate(180%);
+    -webkit-backdrop-filter: blur(40px) saturate(180%);
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
+    border-radius: 20px;
+    padding: 40px 30px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2),
+                0 1px 2px rgba(255, 255, 255, 0.1) inset;
+}
+
+/* Mobile: stack vertically */
+@media (max-width: 1024px) {
+    .feedback-section-wrapper {
+        flex-direction: column;
+        width: 95%;
+        gap: 25px;
+    }
+    
+    .feedback-aquarium-side,
+    .feedback-form-side {
+        flex: none;
+        width: 100%;
+    }
+    
+    .feedback-form-side {
+        padding: 30px 20px;
+    }
+}
+
+/* Mobile: scale down bubbles */
+@media (max-width: 768px) {
+    .feedback-section {
+        padding: 40px 10px 30px;
+    }
+    
+    .feedback-section-wrapper {
+        width: 100%;
+    }
+    
+    .feedback-circle {
+        width: 60px;
+        height: 60px;
+        padding: 6px;
+    }
+    
+    .feedback-circle-name {
+        font-size: 9px;
+    }
+    
+    .feedback-circle-message {
+        font-size: 7px;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+    }
+    
+    .feedback-bubble-pop-btn {
+        width: 18px;
+        height: 18px;
+        font-size: 14px;
+        top: -10px;
+        right: -6px;
+        opacity: 1; /* always visible on mobile */
+    }
+    
+    .feedback-aquarium {
+        min-height: 280px;
     }
 }

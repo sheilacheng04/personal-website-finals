@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import '../styles/content.css';
 import FixedHeader from '../components/content/FixedHeader';
@@ -6,12 +6,20 @@ import OverlayMenu from '../components/content/OverlayMenu';
 import ContentParticles from '../components/content/ContentParticles';
 import ProfileSection from '../components/content/ProfileSection';
 import ProjectsSection from '../components/content/ProjectsSection';
+import FeedbackAquarium from '../components/content/FeedbackAquarium';
+import FeedbackForm from '../components/content/FeedbackForm';
 import BackToTop from '../components/content/BackToTop';
 import CreditsFooter from '../components/content/CreditsFooter';
 
 export default function ContentPage() {
   const location = useLocation();
   const pageRef = useRef(null);
+  const [feedbackRefreshKey, setFeedbackRefreshKey] = useState(0);
+
+  // Called when feedback form submits successfully - triggers aquarium re-fetch
+  const handleFeedbackSubmitted = useCallback(() => {
+    setFeedbackRefreshKey((prev) => prev + 1);
+  }, []);
 
   // Handle hash navigation
   useEffect(() => {
@@ -142,6 +150,19 @@ export default function ContentPage() {
       <main className="content-page" ref={pageRef}>
         <ProfileSection />
         <ProjectsSection />
+
+        {/* Feedback Section - above Back to Top */}
+        <section id="contacts" className="section feedback-section">
+          <div className="feedback-section-wrapper">
+            <div className="feedback-aquarium-side">
+              <FeedbackAquarium refreshKey={feedbackRefreshKey} />
+            </div>
+            <div className="feedback-form-side">
+              <FeedbackForm onSubmitSuccess={handleFeedbackSubmitted} />
+            </div>
+          </div>
+        </section>
+
         <BackToTop />
         <CreditsFooter />
       </main>

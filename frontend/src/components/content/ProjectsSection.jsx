@@ -1,8 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import PosterGallery from './PosterGallery';
 import ContactLinks from './ContactLinks';
-import FeedbackAquarium from './FeedbackAquarium';
-import FeedbackForm from './FeedbackForm';
 
 const projectData = [
   {
@@ -180,14 +178,6 @@ export default function ProjectsSection() {
 
           {/* Contact Links */}
           <ContactLinks />
-
-          {/* Third container: Aquarium + Form */}
-          <div className="projects-third-container">
-            <FeedbackAquarium />
-            <div className="projects-contacts-container" id="contacts">
-              <FeedbackForm />
-            </div>
-          </div>
         </div>
       </div>
     </section>

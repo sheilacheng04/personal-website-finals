@@ -1,184 +1,67 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { api } from '../../services/api';
 
-export default function FeedbackAquarium() {
+export default function FeedbackAquarium({ refreshKey }) {
   const containerRef = useRef(null);
-  const circlesRef = useRef([]);
-  const [refreshTrigger, setRefreshTrigger] = useState(0);
+  const [feedbacks, setFeedbacks] = useState([]);
+  const [poppedIds, setPoppedIds] = useState(new Set());
+  const [modalFeedback, setModalFeedback] = useState(null);
 
+  // Load feedback from API on mount and when refreshKey changes
   useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    // Clear existing circles when refreshing
-    circlesRef.current = [];
-    container.innerHTML = '';
-
-    // Physics loop
-    const interval = setInterval(() => {
-      circlesRef.current.forEach((cd) => {
-        if (!cd.velocityX && !cd.velocityY) return;
-        cd.velocityX *= 0.92;
-        cd.velocityY *= 0.92;
-        if (Math.abs(cd.velocityX) < 0.05) cd.velocityX = 0;
-        if (Math.abs(cd.velocityY) < 0.05) cd.velocityY = 0;
-      });
-    }, 30);
-
-    // Load feedback from API (falls back to Supabase direct if API unavailable)
     const loadFeedback = async () => {
       try {
         const data = await api.getFeedback();
-        if (Array.isArray(data) && data.length > 0) {
-          data.forEach((fb, index) => createCircle(fb, container, index));
+        if (Array.isArray(data)) {
+          setFeedbacks(data);
         }
       } catch {
-        // Fallback: try direct Supabase
         try {
           const { supabase } = await import('../../services/supabaseClient');
-          const { data } = await supabase.from('feedback').select('*').order('created_at', { ascending: false });
-          if (data) data.forEach((fb, index) => createCircle(fb, container, index));
+          const { data } = await supabase
+            .from('feedback')
+            .select('*')
+            .order('created_at', { ascending: false });
+          if (data) setFeedbacks(data);
         } catch (e) {
           console.error('Failed to load feedback:', e);
         }
       }
     };
     loadFeedback();
+  }, [refreshKey]);
 
-    // Drag support
-    let dragging = null;
-    let dragOffset = { x: 0, y: 0 };
+  // Generate a stable random position for each bubble within bounds
+  const getPosition = useCallback((index, total) => {
+    const cols = Math.ceil(Math.sqrt(total));
+    const row = Math.floor(index / cols);
+    const col = index % cols;
+    const cellW = 100 / cols;
+    const cellH = 100 / Math.ceil(total / cols);
+    // Place within cell with some padding (15%-85% within each cell)
+    const x = cellW * col + cellW * 0.15 + (cellW * 0.7 * ((index * 7 + 3) % 10)) / 10;
+    const y = cellH * row + cellH * 0.15 + (cellH * 0.7 * ((index * 13 + 5) % 10)) / 10;
+    return { left: `${Math.min(85, Math.max(5, x))}%`, top: `${Math.min(80, Math.max(5, y))}%` };
+  }, []);
 
-    const onDown = (e) => {
-      const target = e.target.closest('.feedback-circle');
-      if (!target) return;
-      e.preventDefault();
-      const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
-      const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
-      const rect = target.getBoundingClientRect();
-      dragOffset = { x: clientX - rect.left - rect.width / 2, y: clientY - rect.top - rect.height / 2 };
-      dragging = target;
-      target.classList.add('dragging');
-    };
-
-    const onMove = (e) => {
-      if (!dragging) return;
-      e.preventDefault();
-      const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
-      const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
-      const cr = container.getBoundingClientRect();
-      const dr = dragging.getBoundingClientRect();
-      const radius = dr.width / 2;
-      let newX = Math.max(radius, Math.min(cr.width - radius, clientX - cr.left - dragOffset.x));
-      let newY = Math.max(radius, Math.min(cr.height - radius, clientY - cr.top - dragOffset.y));
-      dragging.style.left = newX + 'px';
-      dragging.style.top = newY + 'px';
-      dragging.style.transform = 'none';
-    };
-
-    const onUp = () => {
-      if (dragging) {
-        dragging.classList.remove('dragging');
-        dragging = null;
-      }
-    };
-
-    container.addEventListener('mousedown', onDown);
-    document.addEventListener('mousemove', onMove);
-    document.addEventListener('mouseup', onUp);
-    container.addEventListener('touchstart', onDown, { passive: false });
-    document.addEventListener('touchmove', onMove, { passive: false });
-    document.addEventListener('touchend', onUp);
-
-    return () => {
-      clearInterval(interval);
-      container.removeEventListener('mousedown', onDown);
-      document.removeEventListener('mousemove', onMove);
-      document.removeEventListener('mouseup', onUp);
-      container.removeEventListener('touchstart', onDown);
-      document.removeEventListener('touchmove', onMove);
-      document.removeEventListener('touchend', onUp);
-    };
-  }, [refreshTrigger]);
-
-  function createCircle(fb, container, index = 0) {
-    const circle = document.createElement('div');
-    circle.className = 'feedback-circle';
-    
-    // Add floating animation with staggered delay
-    const animationDelay = (index % 5) * 0.5;
-    circle.style.animation = `float ${8 + (index % 3) * 2}s ease-in-out ${animationDelay}s infinite`;
-    
-    const nameEl = document.createElement('div');
-    nameEl.className = 'feedback-circle-name';
-    nameEl.textContent = fb.name;
-    const msgEl = document.createElement('div');
-    msgEl.className = 'feedback-circle-message';
-    msgEl.textContent = fb.message;
-    circle.appendChild(nameEl);
-    circle.appendChild(msgEl);
-    
-    // Create a "pop" button (X) for each circle
-    const popBtn = document.createElement('button');
-    popBtn.className = 'feedback-circle-pop';
-    popBtn.innerHTML = '×';
-    popBtn.title = 'Pop this bubble';
-    circle.appendChild(popBtn);
-    
-    circlesRef.current.push({ element: circle, velocityX: 0, velocityY: 0, feedback: fb });
-
-    // Handle pop (remove circle temporarily and respawn)
-    popBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      
-      // Add pop animation
-      circle.style.transition = 'all 0.3s ease';
-      circle.style.transform = 'scale(0)';
-      circle.style.opacity = '0';
-      
-      setTimeout(() => {
-        circle.remove();
-        // Remove from circlesRef
-        const idx = circlesRef.current.findIndex(cd => cd.element === circle);
-        if (idx > -1) circlesRef.current.splice(idx, 1);
-      }, 300);
-      
-      // Respawn after 3 seconds
-      setTimeout(() => {
-        if (containerRef.current) {
-          createCircle(fb, containerRef.current, index);
-        }
-      }, 3000);
-    });
-
-    // Click to open modal (but not when dragging or popping)
-    let clickStartTime = 0;
-    circle.addEventListener('mousedown', () => {
-      clickStartTime = Date.now();
-    });
-    
-    circle.addEventListener('click', (e) => {
-      const clickDuration = Date.now() - clickStartTime;
-      if (!circle.classList.contains('dragging') && clickDuration < 200 && e.target !== popBtn) {
-        const modal = document.createElement('div');
-        modal.className = 'feedback-modal';
-        modal.innerHTML = `<div class="feedback-modal-content"><button class="feedback-modal-close">&times;</button><h3>${fb.name}</h3><p class="feedback-modal-email">${fb.email}</p><p class="feedback-modal-message">${fb.message}</p></div>`;
-        document.body.appendChild(modal);
-        modal.addEventListener('click', (e) => {
-          if (e.target === modal || e.target.classList.contains('feedback-modal-close')) modal.remove();
-        });
-      }
-    });
-
-    container.appendChild(circle);
-    circle.style.opacity = '0';
-    circle.style.transform = 'scale(0)';
+  // Pop a bubble: hide it and respawn after 3 seconds
+  const handlePop = useCallback((id) => {
+    setPoppedIds((prev) => new Set(prev).add(id));
     setTimeout(() => {
-      circle.style.transition = 'all 0.5s ease';
-      circle.style.opacity = '1';
-      circle.style.transform = 'scale(1)';
-    }, 100);
-  }
+      setPoppedIds((prev) => {
+        const next = new Set(prev);
+        next.delete(id);
+        return next;
+      });
+    }, 3000);
+  }, []);
+
+  // Click bubble to show modal
+  const handleBubbleClick = useCallback((fb) => {
+    setModalFeedback(fb);
+  }, []);
+
+  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
 
   return (
     <div className="feedback-aquarium">
@@ -187,7 +70,66 @@ export default function FeedbackAquarium() {
       <div className="glass-seam-bottom-left" />
       <div className="glass-seam-bottom-right" />
       <div className="glass-seam-bottom-center" />
-      <div className="feedback-circles-container" ref={containerRef} />
+      <div className="feedback-circles-container" ref={containerRef}>
+        {feedbacks.map((fb, index) => {
+          const id = fb.id || index;
+          const isPopped = poppedIds.has(id);
+          const pos = getPosition(index, feedbacks.length);
+          const animDuration = 8 + (index % 3) * 2;
+          const animDelay = (index % 5) * 0.5;
+
+          return (
+            <div
+              key={id}
+              className="feedback-bubble-wrapper"
+              style={{
+                position: 'absolute',
+                left: pos.left,
+                top: pos.top,
+                opacity: isPopped ? 0 : 1,
+                transform: isPopped ? 'scale(0)' : 'scale(1)',
+                transition: 'all 0.3s ease',
+                pointerEvents: isPopped ? 'none' : 'all',
+                animation: isPopped ? 'none' : `float ${animDuration}s ease-in-out ${animDelay}s infinite`,
+              }}
+            >
+              {/* Pop button - positioned OUTSIDE the circle */}
+              <button
+                className="feedback-bubble-pop-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handlePop(id);
+                }}
+                title="Pop this bubble"
+              >
+                ×
+              </button>
+              {/* The circle itself */}
+              <div
+                className={`feedback-circle ${isMobile ? 'mobile' : ''}`}
+                onClick={() => handleBubbleClick(fb)}
+              >
+                <div className="feedback-circle-name">{fb.name}</div>
+                <div className="feedback-circle-message">{fb.message}</div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Feedback Modal */}
+      {modalFeedback && (
+        <div className="feedback-modal" onClick={() => setModalFeedback(null)}>
+          <div className="feedback-modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="feedback-modal-close" onClick={() => setModalFeedback(null)}>
+              &times;
+            </button>
+            <h3>{modalFeedback.name}</h3>
+            <p className="feedback-modal-email">{modalFeedback.email}</p>
+            <p className="feedback-modal-message">{modalFeedback.message}</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

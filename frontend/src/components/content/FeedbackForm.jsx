@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { api } from '../../services/api';
 import { supabase } from '../../services/supabaseClient';
 
-export default function FeedbackForm() {
+export default function FeedbackForm({ onSubmitSuccess }) {
   const [form, setForm] = useState({ name: '', email: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successMsg, setSuccessMsg] = useState('');
@@ -20,10 +20,8 @@ export default function FeedbackForm() {
       setSuccessMsg('Your message has been sent! Thanks for reaching out.');
       setForm({ name: '', email: '', message: '' });
 
-      // Create feedback circle in aquarium
-      if (window.feedbackCirclesInstance) {
-        window.feedbackCirclesInstance.createFeedbackCircle(form);
-      }
+      // Notify parent to refresh aquarium
+      if (onSubmitSuccess) onSubmitSuccess();
     } catch {
       // Fallback: submit directly to Supabase
       try {
@@ -31,6 +29,9 @@ export default function FeedbackForm() {
         if (error) throw error;
         setSuccessMsg('Your message has been sent! Thanks for reaching out.');
         setForm({ name: '', email: '', message: '' });
+
+        // Notify parent to refresh aquarium
+        if (onSubmitSuccess) onSubmitSuccess();
       } catch (err) {
         setErrorMsg('Failed to send message. Please try again.');
         console.error('Form error:', err);
