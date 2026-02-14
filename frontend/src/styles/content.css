@@ -3740,61 +3740,6 @@ html {
         width: clamp(150px, 14vw, 160px);
     }
 }
-        width: clamp(80px, 15vw, 100px);
-        height: clamp(80px, 15vw, 100px);
-        padding: clamp(8px, 2vw, 12px);
-    }
-    
-    .feedback-circle-name {
-        font-size: clamp(11px, 2vw, 13px);
-    }
-    
-    .feedback-circle-message {
-        font-size: clamp(8px, 1.5vw, 10px);
-    }
-    
-    /* Poster gallery mobile */
-    .poster-gallery-title {
-        font-size: clamp(24px, 6vw, 32px);
-        margin-top: 0;
-    }
-    
-    .poster-gallery-wrapper {
-        gap: 10px;
-    }
-    
-    .poster-nav-btn {
-        width: 36px;
-        height: 36px;
-    }
-    
-    .poster-grid {
-        gap: 10px;
-    }
-    
-    /* Contacts section mobile */
-    .contacts-section {
-        padding: 40px 20px 60px;
-        height: auto;
-        min-height: auto;
-    }
-    
-    .contacts-content {
-        width: 95%;
-        max-width: 95vw;
-        padding: 30px 20px;
-    }
-    
-    /* Contact links grid mobile */
-    .contact-links-grid {
-        grid-template-columns: 1fr;
-        gap: 15px;
-    }
-    
-    .contact-link-card {
-        padding: 20px;
-    }
-}
 
 /* Touch device optimizations */
 @media (hover: none) and (pointer: coarse) {
