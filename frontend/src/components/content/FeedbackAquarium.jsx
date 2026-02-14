@@ -56,8 +56,14 @@ export default function FeedbackAquarium({ refreshKey }) {
     }, 3000);
   }, []);
 
-  // Click bubble to show modal
-  const handleBubbleClick = useCallback((fb) => {
+  // Click bubble to pop
+  const handleSingleClick = useCallback((id, e) => {
+    e.stopPropagation();
+    handlePop(id);
+  }, [handlePop]);
+
+  // Double-click bubble to show modal
+  const handleDoubleClick = useCallback((fb) => {
     setModalFeedback(fb);
   }, []);
 
@@ -93,21 +99,11 @@ export default function FeedbackAquarium({ refreshKey }) {
                 animation: isPopped ? 'none' : `float ${animDuration}s ease-in-out ${animDelay}s infinite`,
               }}
             >
-              {/* Pop button - positioned OUTSIDE the circle */}
-              <button
-                className="feedback-bubble-pop-btn"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handlePop(id);
-                }}
-                title="Pop this bubble"
-              >
-                ×
-              </button>
-              {/* The circle itself */}
+              {/* The circle itself - single click to pop, double click to show details */}
               <div
                 className={`feedback-circle ${isMobile ? 'mobile' : ''}`}
-                onClick={() => handleBubbleClick(fb)}
+                onClick={(e) => handleSingleClick(id, e)}
+                onDoubleClick={() => handleDoubleClick(fb)}
               >
                 <div className="feedback-circle-name">{fb.name}</div>
                 <div className="feedback-circle-message">{fb.message}</div>

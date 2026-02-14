@@ -3199,38 +3199,6 @@ body::-webkit-scrollbar {
     z-index: 5;
 }
 
-/* Pop button - positioned OUTSIDE and above the circle */
-.feedback-bubble-pop-btn {
-    position: absolute;
-    top: -12px;
-    right: -8px;
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    background: rgba(255, 100, 100, 0.85);
-    color: white;
-    border: 1.5px solid rgba(255, 255, 255, 0.6);
-    font-size: 16px;
-    line-height: 16px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: all 0.2s ease;
-    z-index: 20;
-    padding: 0;
-}
-
-.feedback-bubble-wrapper:hover .feedback-bubble-pop-btn {
-    opacity: 1;
-}
-
-.feedback-bubble-pop-btn:hover {
-    background: rgba(255, 60, 60, 1);
-    transform: scale(1.2);
-}
-
 .feedback-circle {
     width: 80px;
     height: 80px;
@@ -3755,11 +3723,6 @@ html {
         min-height: 44px;
         min-width: 44px;
     }
-    
-    /* Always show pop buttons on touch */
-    .feedback-bubble-pop-btn {
-        opacity: 1;
-    }
 }
 
 /* =============================================
@@ -3846,15 +3809,6 @@ html {
         font-size: 7px;
         -webkit-line-clamp: 2;
         line-clamp: 2;
-    }
-    
-    .feedback-bubble-pop-btn {
-        width: 18px;
-        height: 18px;
-        font-size: 14px;
-        top: -10px;
-        right: -6px;
-        opacity: 1; /* always visible on mobile */
     }
     
     .feedback-aquarium {
