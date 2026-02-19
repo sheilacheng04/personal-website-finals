@@ -1,6 +1,11 @@
 import { useEffect, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/home.css';
+import '../styles/aquarium-glass.css';
+import { useBuoyantCircles } from '../components/aquarium/BuoyantCircles';
+import { useDeepDiveTransition } from '../components/aquarium/DeepDiveTransition';
+import CausticsCanvas from '../components/aquarium/CausticsCanvas';
+import GlassRefractionFilter from '../components/aquarium/GlassRefractionFilter';
 
 function WaterParticlesEffect({ containerRef }) {
   useEffect(() => {
@@ -75,6 +80,12 @@ function WaterParticlesEffect({ containerRef }) {
 export default function HomePage() {
   const homeRef = useRef(null);
 
+  // Task 1: GSAP buoyant bobbing + magnetic pull on nav circles
+  useBuoyantCircles(homeRef);
+
+  // Task 3: Deep-dive zoom/blur transition on circle click
+  const triggerDive = useDeepDiveTransition();
+
   // jQuery ripple effect
   useEffect(() => {
     const loadRipple = async () => {
@@ -134,6 +145,12 @@ export default function HomePage() {
 
   return (
     <div className="home-page" ref={homeRef}>
+      {/* Task 2: SVG refraction filter (hidden, referenced by CSS) */}
+      <GlassRefractionFilter />
+
+      {/* Task 4: Caustic light-ray shader */}
+      <CausticsCanvas opacity={0.18} speed={1.0} color={[0.25, 0.6, 0.9]} />
+
       <WaterParticlesEffect containerRef={homeRef} />
 
       <div className="ellipse-design">
@@ -163,20 +180,36 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* Navigation Bubbles */}
-      <Link to="/content#posters" className="btn-circle posters-btn">
+      {/* Navigation Bubbles — Deep Dive transition on click */}
+      <Link
+        to="/content#posters"
+        className="btn-circle posters-btn"
+        onClick={(e) => triggerDive(e, '/content#posters')}
+      >
         <span className="btn-title">Posters</span>
         <span className="btn-description">Vibrant graphics &amp; eye-catching designs</span>
       </Link>
-      <Link to="/content#contacts" className="btn-circle contacts-btn">
+      <Link
+        to="/content#contacts"
+        className="btn-circle contacts-btn"
+        onClick={(e) => triggerDive(e, '/content#contacts')}
+      >
         <span className="btn-title">Contacts</span>
         <span className="btn-description">Reach out &amp; let's create something amazing</span>
       </Link>
-      <Link to="/content#projects" className="btn-circle projects-btn">
+      <Link
+        to="/content#projects"
+        className="btn-circle projects-btn"
+        onClick={(e) => triggerDive(e, '/content#projects')}
+      >
         <span className="btn-title">Projects</span>
         <span className="btn-description">Explore my creative journey &amp; portfolio</span>
       </Link>
-      <Link to="/content#profile" className="btn-circle profile-btn">
+      <Link
+        to="/content#profile"
+        className="btn-circle profile-btn"
+        onClick={(e) => triggerDive(e, '/content#profile')}
+      >
         <span className="btn-title">Profile</span>
         <span className="btn-description">Get to know me &amp; what I'm all about</span>
       </Link>
