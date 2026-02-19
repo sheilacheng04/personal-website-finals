@@ -24,11 +24,10 @@
     background: radial-gradient(circle at 30% 40%, rgba(255,255,255,0.01), transparent 26%),
                 linear-gradient(135deg, rgba(255,255,255,0.008), rgba(0,40,85,0.1));
     mix-blend-mode: screen;
-    opacity: 0.12;
-    animation: waterDrift 20s ease-in-out infinite;
+    opacity: 0.08;
+    animation: waterDrift 30s ease-in-out infinite;
     pointer-events: none;
     z-index: 1;
-    will-change: transform;
 }
 
 .home-page::after {
@@ -37,11 +36,10 @@
     inset: -15% -15%;
     background: radial-gradient(circle at 70% 60%, rgba(255,255,255,0.008), transparent 24%);
     mix-blend-mode: screen;
-    opacity: 0.1;
-    animation: waterDrift 28s ease-in-out infinite reverse;
+    opacity: 0.07;
+    animation: waterDrift 35s ease-in-out infinite reverse;
     pointer-events: none;
     z-index: 1;
-    will-change: transform;
 }
 
 .ellipse-design {
@@ -57,8 +55,6 @@
     position: absolute;
     border-radius: 50%;
     background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.28), rgba(150,210,255,0.22) 55%, rgba(100,180,240,0.15) 100%);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
     border: 1px solid rgba(255, 255, 255, 0.35);
     transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     box-shadow: 
@@ -110,7 +106,6 @@
     transform: translate(-50%, -50%);
     z-index: 50;
     cursor: pointer;
-    animation: bubbleRise 18s ease-in-out infinite;
 }
 
 .title-short {
@@ -302,21 +297,11 @@
 }
 
 @keyframes floatInWater {
-    0% {
-        transform: translate(0, 0) rotate(0deg);
-    }
-    25% {
-        transform: translate(20px, -30px) rotate(90deg);
-    }
-    50% {
-        transform: translate(-15px, 25px) rotate(180deg);
-    }
-    75% {
-        transform: translate(25px, 15px) rotate(270deg);
-    }
-    100% {
-        transform: translate(0, 0) rotate(360deg);
-    }
+    0%   { transform: translate(0, 0); }
+    25%  { transform: translate(18px, -25px); }
+    50%  { transform: translate(-12px, 22px); }
+    75%  { transform: translate(22px, 12px); }
+    100% { transform: translate(0, 0); }
 }
 
 /* Large screens - maintain centered layout */

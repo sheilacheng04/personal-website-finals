@@ -17,9 +17,10 @@ function WaterParticlesEffect({ containerRef }) {
     container.insertBefore(particlesContainer, container.firstChild);
 
     const particles = [];
-    const particleCount = 50;
+    const particleCount = 20;
     let mouseX = 0;
     let mouseY = 0;
+    let rafPending = false;
 
     for (let i = 0; i < particleCount; i++) {
       const particle = document.createElement('div');
@@ -49,21 +50,26 @@ function WaterParticlesEffect({ containerRef }) {
     }
 
     const onMouseMove = (e) => {
-      const rect = container.getBoundingClientRect();
-      mouseX = ((e.clientX - rect.left) / rect.width) * 100;
-      mouseY = ((e.clientY - rect.top) / rect.height) * 100;
-      particles.forEach((p) => {
-        const bx = parseFloat(p.dataset.baseX);
-        const by = parseFloat(p.dataset.baseY);
-        const dx = mouseX - bx;
-        const dy = mouseY - by;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 50) {
-          const force = (50 - dist) / 50;
-          p.style.transform = `translate(${dx * force * 0.4}%, ${dy * force * 0.4}%)`;
-        } else {
-          p.style.transform = 'translate(0,0)';
-        }
+      if (rafPending) return;
+      rafPending = true;
+      requestAnimationFrame(() => {
+        rafPending = false;
+        const rect = container.getBoundingClientRect();
+        mouseX = ((e.clientX - rect.left) / rect.width) * 100;
+        mouseY = ((e.clientY - rect.top) / rect.height) * 100;
+        particles.forEach((p) => {
+          const bx = parseFloat(p.dataset.baseX);
+          const by = parseFloat(p.dataset.baseY);
+          const dx = mouseX - bx;
+          const dy = mouseY - by;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 50) {
+            const force = (50 - dist) / 50;
+            p.style.transform = `translate(${dx * force * 0.4}%, ${dy * force * 0.4}%)`;
+          } else {
+            p.style.transform = 'translate(0,0)';
+          }
+        });
       });
     };
 
@@ -111,9 +117,9 @@ export default function HomePage() {
         if (homePage.length) {
           const isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(navigator.userAgent);
           homePage.ripples({
-            resolution: isMobile ? 128 : 256,
-            dropRadius: isMobile ? 15 : 18,
-            perturbance: 0.025,
+            resolution: 128,
+            dropRadius: isMobile ? 12 : 16,
+            perturbance: 0.02,
             interactive: true,
           });
         }

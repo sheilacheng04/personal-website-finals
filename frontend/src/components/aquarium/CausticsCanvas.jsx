@@ -151,13 +151,18 @@ export default function CausticsCanvas({
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
     const start = performance.now();
-    function render() {
-      const t = ((performance.now() - start) / 1000) * speed;
+    let lastFrame = 0;
+    const TARGET_FPS = 30;
+    const FRAME_MS = 1000 / TARGET_FPS;
+    function render(now) {
+      rafRef.current = requestAnimationFrame(render);
+      if (now - lastFrame < FRAME_MS) return; // throttle to ~30fps
+      lastFrame = now;
+      const t = ((now - start) / 1000) * speed;
       gl.uniform1f(uTime, t);
       gl.uniform2f(uRes, canvas.width, canvas.height);
       gl.uniform3fv(uColor, color);
       gl.drawArrays(gl.TRIANGLES, 0, 6);
-      rafRef.current = requestAnimationFrame(render);
     }
     rafRef.current = requestAnimationFrame(render);
 
