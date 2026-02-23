@@ -4,6 +4,7 @@ import '../styles/content.css';
 import FixedHeader from '../components/content/FixedHeader';
 import OverlayMenu from '../components/content/OverlayMenu';
 import ContentParticles from '../components/content/ContentParticles';
+import AquariumScene from '../components/content/AquariumScene';
 import ProfileSection from '../components/content/ProfileSection';
 import ProjectsSection from '../components/content/ProjectsSection';
 import FeedbackAquarium from '../components/content/FeedbackAquarium';
@@ -146,6 +147,9 @@ export default function ContentPage() {
 
       {/* Floating Ocean Particles */}
       <ContentParticles />
+
+      {/* Interactive 3D Deep-Ocean Aquarium */}
+      <AquariumScene />
 
       <main className="content-page" ref={pageRef}>
         <ProfileSection />

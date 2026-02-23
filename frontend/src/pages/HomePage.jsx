@@ -188,12 +188,12 @@ export default function HomePage() {
 
       {/* Navigation Bubbles — Deep Dive transition on click */}
       <Link
-        to="/content#posters"
+        to="/content#profile"
         className="btn-circle posters-btn"
-        onClick={(e) => triggerDive(e, '/content#posters')}
+        onClick={(e) => triggerDive(e, '/content#profile')}
       >
-        <span className="btn-title">Posters</span>
-        <span className="btn-description">Vibrant graphics &amp; eye-catching designs</span>
+        <span className="btn-title">Profile</span>
+        <span className="btn-description">Get to know me &amp; what I'm all about</span>
       </Link>
       <Link
         to="/content#contacts"
@@ -212,12 +212,12 @@ export default function HomePage() {
         <span className="btn-description">Explore my creative journey &amp; portfolio</span>
       </Link>
       <Link
-        to="/content#profile"
+        to="/content#posters"
         className="btn-circle profile-btn"
-        onClick={(e) => triggerDive(e, '/content#profile')}
+        onClick={(e) => triggerDive(e, '/content#posters')}
       >
-        <span className="btn-title">Profile</span>
-        <span className="btn-description">Get to know me &amp; what I'm all about</span>
+        <span className="btn-title">Posters</span>
+        <span className="btn-description">Vibrant graphics &amp; eye-catching designs</span>
       </Link>
     </div>
   );
