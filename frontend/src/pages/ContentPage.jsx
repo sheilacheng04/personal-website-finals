@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import '../styles/content.css';
 import FixedHeader from '../components/content/FixedHeader';
 import OverlayMenu from '../components/content/OverlayMenu';
-import AquariumScene from '../components/content/AquariumScene';
+import ContentParticles from '../components/content/ContentParticles';
 import ProfileSection from '../components/content/ProfileSection';
 import ProjectsSection from '../components/content/ProjectsSection';
 import FeedbackAquarium from '../components/content/FeedbackAquarium';
@@ -111,8 +111,8 @@ export default function ContentPage() {
       <FixedHeader />
       <OverlayMenu />
 
-      {/* Interactive 3D Deep-Ocean Aquarium */}
-      <AquariumScene />
+      {/* Floating Ocean Particles */}
+      <ContentParticles />
 
       <main className="content-page" ref={pageRef}>
         <ProfileSection />
