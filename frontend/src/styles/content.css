@@ -3833,3 +3833,491 @@ html {
         min-height: 280px;
     }
 }
+
+
+/* =============================================
+   PREMIUM GLASSMORPHISM & 3D ENHANCEMENTS
+   ============================================= */
+
+/* --- Animated gradient border keyframes --- */
+@keyframes glassShimmer {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes borderGlow {
+    0%, 100% { border-color: rgba(100, 180, 220, 0.25); }
+    50%  { border-color: rgba(140, 200, 255, 0.5); }
+}
+
+@keyframes floatGlass {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    33%  { transform: translateY(-4px) rotate(0.3deg); }
+    66%  { transform: translateY(2px) rotate(-0.2deg); }
+}
+
+@keyframes innerLightDrift {
+    0%   { background-position: 0% 0%; }
+    50%  { background-position: 100% 100%; }
+    100% { background-position: 0% 0%; }
+}
+
+@keyframes prismaticEdge {
+    0%   { filter: hue-rotate(0deg); }
+    100% { filter: hue-rotate(360deg); }
+}
+
+/* --- Universal glass-panel upgrade for all major containers --- */
+.profile-box,
+.projects-carousel-container,
+.projects-second-container,
+.projects-fourth-container,
+.projects-contact-links-container,
+.feedback-form-side,
+.feedback-aquarium,
+.contacts-content,
+.credits-footer,
+.back-to-top,
+.poster-lightbox-content {
+    /* Multi-layer glass background with animated inner light */
+    background:
+        radial-gradient(ellipse at 20% 20%, rgba(255,255,255,0.18) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(100,180,255,0.08) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(255,255,255,0.06), rgba(var(--theme-light),0.08) 40%, rgba(var(--theme-dark),0.06) 100%) !important;
+    backdrop-filter: blur(45px) saturate(200%) brightness(1.05) !important;
+    -webkit-backdrop-filter: blur(45px) saturate(200%) brightness(1.05) !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.22) !important;
+    box-shadow:
+        0 8px 32px rgba(0, 20, 60, 0.35),
+        0 2px 8px rgba(100, 180, 255, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.35),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.08),
+        inset 0 0 60px rgba(100, 180, 220, 0.04) !important;
+    animation: borderGlow 6s ease-in-out infinite !important;
+    position: relative;
+}
+
+/* Animated specular highlight on every glass container */
+.profile-box::before,
+.projects-carousel-container::before,
+.projects-second-container::before,
+.projects-fourth-container::before,
+.projects-contact-links-container::before,
+.feedback-form-side::before,
+.contacts-content::before,
+.credits-footer::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 1px !important;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(255,255,255,0.5) 30%,
+        rgba(200,230,255,0.7) 50%,
+        rgba(255,255,255,0.5) 70%,
+        transparent 100%) !important;
+    background-size: 200% 100% !important;
+    animation: glassShimmer 4s ease-in-out infinite !important;
+    z-index: 2 !important;
+    pointer-events: none !important;
+}
+
+/* Inner refraction highlight (bottom-right glow) */
+.profile-box::after,
+.projects-fourth-container::after,
+.projects-contact-links-container::after,
+.feedback-form-side::after,
+.contacts-content::after {
+    content: '' !important;
+    position: absolute !important;
+    bottom: -30% !important;
+    right: -30% !important;
+    width: 60% !important;
+    height: 60% !important;
+    background: radial-gradient(circle, rgba(100, 180, 255, 0.12) 0%, transparent 70%) !important;
+    pointer-events: none !important;
+    z-index: 0 !important;
+    opacity: 0.6 !important;
+    animation: innerLightDrift 8s ease-in-out infinite !important;
+    background-size: 200% 200% !important;
+}
+
+/* --- Enhanced hover state for ALL glass panels --- */
+.profile-box:hover,
+.projects-carousel-container:hover,
+.projects-second-container:hover,
+.projects-fourth-container:hover,
+.projects-contact-links-container:hover,
+.feedback-form-side:hover,
+.contacts-content:hover {
+    background:
+        radial-gradient(ellipse at 25% 25%, rgba(255,255,255,0.28) 0%, transparent 45%),
+        radial-gradient(ellipse at 75% 75%, rgba(100,180,255,0.15) 0%, transparent 45%),
+        radial-gradient(circle at 50% 50%, rgba(255,255,255,0.10), rgba(var(--theme-light),0.14) 40%, rgba(var(--theme-dark),0.10) 100%) !important;
+    border-color: rgba(180, 220, 255, 0.55) !important;
+    box-shadow:
+        0 20px 60px rgba(0, 30, 80, 0.45),
+        0 8px 24px rgba(100, 180, 255, 0.25),
+        0 0 30px rgba(100, 200, 255, 0.15),
+        inset 0 2px 0 rgba(255, 255, 255, 0.45),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.12),
+        inset 0 0 80px rgba(100, 180, 220, 0.08) !important;
+    transform: translateY(-6px) scale(1.015) !important;
+}
+
+/* --- Profile section: floating glass card tilt on hover --- */
+.profile-box {
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.5s ease !important;
+    overflow: hidden !important;
+}
+
+.profile-box:hover {
+    transform: translateY(-8px) scale(1.02) perspective(800px) rotateX(1deg) rotateY(-1deg) !important;
+}
+
+/* --- Projects carousel: prismatic border edge --- */
+.projects-carousel-container {
+    overflow: hidden !important;
+}
+
+.projects-carousel-container::after {
+    content: '' !important;
+    position: absolute !important;
+    inset: -2px !important;
+    background: conic-gradient(
+        from 0deg,
+        rgba(100, 180, 255, 0.3),
+        rgba(140, 100, 255, 0.2),
+        rgba(100, 255, 200, 0.2),
+        rgba(100, 180, 255, 0.3)
+    ) !important;
+    border-radius: inherit !important;
+    z-index: -1 !important;
+    animation: prismaticEdge 8s linear infinite !important;
+    opacity: 0.5 !important;
+    pointer-events: none !important;
+}
+
+/* --- Feedback aquarium: deepened glass tank look --- */
+.feedback-aquarium {
+    background:
+        linear-gradient(180deg, rgba(100,180,255,0.05) 0%, rgba(0,40,80,0.12) 100%),
+        radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.12) 0%, transparent 60%),
+        radial-gradient(circle at 50% 100%, rgba(0,30,80,0.15) 0%, transparent 50%) !important;
+    border: 2px solid rgba(150, 210, 255, 0.35) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.5) !important;
+    box-shadow:
+        0 25px 80px rgba(0, 40, 100, 0.5),
+        0 10px 40px rgba(80, 160, 220, 0.2),
+        inset 0 2px 6px rgba(255, 255, 255, 0.3),
+        inset 0 -4px 12px rgba(0, 40, 120, 0.15),
+        inset 12px 0 20px -10px rgba(150, 210, 255, 0.2),
+        inset -12px 0 20px -10px rgba(150, 210, 255, 0.2) !important;
+}
+
+/* --- Feedback form side: frosted card --- */
+.feedback-form-side {
+    border-radius: 20px !important;
+    overflow: hidden !important;
+}
+
+.feedback-form-side::after {
+    border-radius: 20px !important;
+}
+
+/* --- Credits footer: deep glass with gradient shine --- */
+.credits-footer {
+    overflow: hidden !important;
+    border-radius: 24px 24px 0 0 !important;
+}
+
+.credits-footer::after {
+    content: '' !important;
+    position: absolute !important;
+    top: -50% !important;
+    left: -50% !important;
+    width: 200% !important;
+    height: 200% !important;
+    background: conic-gradient(from 180deg at 50% 50%,
+        transparent 0deg,
+        rgba(100, 180, 255, 0.04) 90deg,
+        transparent 180deg,
+        rgba(100, 180, 255, 0.04) 270deg,
+        transparent 360deg) !important;
+    animation: prismaticEdge 20s linear infinite !important;
+    pointer-events: none !important;
+    z-index: 0 !important;
+}
+
+/* --- Back to top button: bubble capsule --- */
+.back-to-top {
+    border-radius: 50px !important;
+    overflow: hidden !important;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1) !important;
+}
+
+.back-to-top:hover {
+    transform: translateY(-4px) scale(1.06) !important;
+    box-shadow:
+        0 12px 36px rgba(0, 30, 80, 0.4),
+        0 0 20px rgba(100, 200, 255, 0.2),
+        inset 0 2px 4px rgba(255, 255, 255, 0.3) !important;
+}
+
+/* --- Poster cards: mini glass tiles --- */
+.poster-card {
+    background:
+        radial-gradient(ellipse at 30% 30%, rgba(255,255,255,0.15) 0%, transparent 50%),
+        rgba(var(--theme-dark), 0.1) !important;
+    backdrop-filter: blur(20px) saturate(150%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(150%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.18) !important;
+    box-shadow:
+        0 4px 16px rgba(0, 20, 60, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1) !important;
+    overflow: hidden !important;
+    position: relative !important;
+}
+
+.poster-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4) 50%, transparent);
+    z-index: 2;
+    pointer-events: none;
+}
+
+.poster-card:hover {
+    transform: translateY(-8px) scale(1.04) !important;
+    border-color: rgba(140, 200, 255, 0.45) !important;
+    box-shadow:
+        0 16px 48px rgba(0, 30, 80, 0.4),
+        0 0 24px rgba(100, 180, 255, 0.2),
+        inset 0 2px 0 rgba(255, 255, 255, 0.3) !important;
+}
+
+/* --- Form inputs: glass input fields --- */
+.form-input,
+.form-textarea {
+    background: rgba(255, 255, 255, 0.06) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.08) !important;
+    transition: all 0.3s ease !important;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+    background: rgba(255, 255, 255, 0.10) !important;
+    border-color: rgba(100, 180, 255, 0.45) !important;
+    box-shadow: 0 0 20px rgba(100, 180, 255, 0.15),
+                inset 0 1px 2px rgba(0, 0, 0, 0.1),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.1) !important;
+}
+
+/* --- Contact link items: glass pill buttons --- */
+.contact-link-item {
+    background:
+        radial-gradient(ellipse at 30% 30%, rgba(255,255,255,0.12) 0%, transparent 50%),
+        rgba(var(--theme-dark), 0.08) !important;
+    backdrop-filter: blur(18px) saturate(150%) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(150%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.18) !important;
+    box-shadow: 0 4px 16px rgba(0, 20, 60, 0.25),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+    transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1) !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.contact-link-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35) 50%, transparent);
+    pointer-events: none;
+}
+
+.contact-link-item:hover {
+    transform: translateY(-4px) scale(1.03) !important;
+    border-color: rgba(140, 200, 255, 0.4) !important;
+    box-shadow: 0 12px 36px rgba(0, 30, 80, 0.35),
+                0 0 20px rgba(100, 180, 255, 0.15),
+                inset 0 2px 0 rgba(255, 255, 255, 0.25) !important;
+}
+
+/* --- Modal overlay: frosted glass panels --- */
+.project-modal-overlay {
+    backdrop-filter: blur(30px) saturate(120%) !important;
+    -webkit-backdrop-filter: blur(30px) saturate(120%) !important;
+}
+
+.project-modal {
+    background:
+        radial-gradient(ellipse at 20% 20%, rgba(255,255,255,0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(100,180,255,0.06) 0%, transparent 50%),
+        rgba(5, 18, 45, 0.85) !important;
+    backdrop-filter: blur(50px) saturate(200%) brightness(1.05) !important;
+    -webkit-backdrop-filter: blur(50px) saturate(200%) brightness(1.05) !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.2) !important;
+    box-shadow:
+        0 30px 100px rgba(0, 20, 60, 0.6),
+        0 0 40px rgba(100, 180, 255, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+}
+
+/* --- Section backgrounds: subtle depth layers --- */
+.profile-section,
+.projects-section,
+.posters-section,
+.contacts-section,
+.feedback-section {
+    background:
+        radial-gradient(ellipse at 20% 30%, rgba(30, 80, 140, 0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 70%, rgba(50, 100, 180, 0.04) 0%, transparent 50%),
+        rgb(var(--theme-very-dark)) !important;
+}
+
+/* --- Floating glass navigation buttons (poster nav) --- */
+.poster-nav-btn {
+    background:
+        radial-gradient(ellipse at 30% 30%, rgba(255,255,255,0.15) 0%, transparent 60%),
+        rgba(255, 255, 255, 0.06) !important;
+    backdrop-filter: blur(20px) saturate(150%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(150%) !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.2) !important;
+    box-shadow: 0 4px 16px rgba(0, 20, 60, 0.3),
+                inset 0 1px 2px rgba(255, 255, 255, 0.25) !important;
+    transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1) !important;
+}
+
+.poster-nav-btn:hover {
+    background:
+        radial-gradient(ellipse at 30% 30%, rgba(255,255,255,0.25) 0%, transparent 50%),
+        rgba(var(--theme-light), 0.2) !important;
+    border-color: rgba(140, 200, 255, 0.5) !important;
+    transform: scale(1.15) !important;
+    box-shadow: 0 8px 28px rgba(0, 30, 80, 0.4),
+                0 0 16px rgba(100, 180, 255, 0.2),
+                inset 0 2px 4px rgba(255, 255, 255, 0.3) !important;
+}
+
+/* --- Section titles: glass text glow --- */
+.profile-greeting,
+.profile-name,
+.projects-section-title,
+.poster-gallery-title,
+.contact-links-title,
+.projects-title {
+    text-shadow:
+        0 0 30px rgba(100, 180, 255, 0.25),
+        0 0 60px rgba(100, 180, 255, 0.1),
+        0 2px 4px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* --- Feedback bubbles: extra glass treatment --- */
+.feedback-circle {
+    background:
+        radial-gradient(ellipse at 30% 30%, rgba(255,255,255,0.35) 0%, rgba(200,230,255,0.2) 40%, rgba(150,200,240,0.1) 70%, transparent 100%) !important;
+    backdrop-filter: blur(12px) saturate(150%) !important;
+    -webkit-backdrop-filter: blur(12px) saturate(150%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.35) !important;
+    box-shadow:
+        0 4px 16px rgba(0, 20, 60, 0.3),
+        inset 0 1px 3px rgba(255, 255, 255, 0.4),
+        inset 0 -1px 2px rgba(0, 40, 100, 0.1) !important;
+}
+
+.feedback-circle:hover {
+    border-color: rgba(180, 220, 255, 0.6) !important;
+    box-shadow:
+        0 8px 28px rgba(0, 30, 80, 0.4),
+        0 0 20px rgba(100, 180, 255, 0.2),
+        inset 0 2px 4px rgba(255, 255, 255, 0.5) !important;
+}
+
+/* --- Slider cards (project cards in carousel) --- */
+.slider-card {
+    background:
+        radial-gradient(ellipse at 25% 25%, rgba(255,255,255,0.12) 0%, transparent 50%),
+        rgba(var(--theme-dark), 0.12) !important;
+    backdrop-filter: blur(16px) saturate(140%) !important;
+    -webkit-backdrop-filter: blur(16px) saturate(140%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    box-shadow:
+        0 8px 24px rgba(0, 20, 60, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+    overflow: hidden !important;
+}
+
+.slider-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35) 50%, transparent);
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* --- Reduce motion: disable non-essential glass animations --- */
+@media (prefers-reduced-motion: reduce) {
+    .profile-box,
+    .projects-carousel-container,
+    .projects-second-container,
+    .projects-fourth-container,
+    .projects-contact-links-container,
+    .feedback-form-side,
+    .feedback-aquarium,
+    .contacts-content,
+    .credits-footer,
+    .back-to-top {
+        animation: none !important;
+    }
+
+    .profile-box::before,
+    .projects-carousel-container::before,
+    .projects-second-container::before,
+    .projects-fourth-container::before,
+    .projects-contact-links-container::before,
+    .feedback-form-side::before,
+    .contacts-content::before,
+    .credits-footer::before {
+        animation: none !important;
+    }
+}
+
+/* --- Mobile: tone down for performance --- */
+@media (max-width: 768px) {
+    .profile-box,
+    .projects-carousel-container,
+    .projects-second-container,
+    .projects-fourth-container,
+    .projects-contact-links-container,
+    .feedback-form-side,
+    .feedback-aquarium,
+    .contacts-content,
+    .credits-footer {
+        backdrop-filter: blur(25px) saturate(160%) !important;
+        -webkit-backdrop-filter: blur(25px) saturate(160%) !important;
+    }
+
+    .projects-carousel-container::after {
+        display: none !important;
+    }
+}

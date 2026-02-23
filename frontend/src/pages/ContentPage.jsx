@@ -3,7 +3,6 @@ import { useLocation } from 'react-router-dom';
 import '../styles/content.css';
 import FixedHeader from '../components/content/FixedHeader';
 import OverlayMenu from '../components/content/OverlayMenu';
-import ContentParticles from '../components/content/ContentParticles';
 import AquariumScene from '../components/content/AquariumScene';
 import ProfileSection from '../components/content/ProfileSection';
 import ProjectsSection from '../components/content/ProjectsSection';
@@ -31,38 +30,6 @@ export default function ContentPage() {
       }, 300);
     }
   }, [location]);
-
-  // Initialize FinisherHeader particles
-  useEffect(() => {
-    const loadFinisher = async () => {
-      if (!window.FinisherHeader) {
-        await new Promise((resolve) => {
-          const s = document.createElement('script');
-          s.src = 'https://unpkg.com/finisher-header/dist/finisher-header.es5.min.js';
-          s.onload = resolve;
-          document.head.appendChild(s);
-        });
-      }
-      try {
-        new window.FinisherHeader({
-          count: 30,
-          size: { min: 2, max: 8, pulse: 0.5 },
-          speed: { x: { min: 0.1, max: 0.4 }, y: { min: 0.1, max: 0.4 } },
-          colors: {
-            background: 'transparent',
-            particles: ['#64b4dc', '#3a8ab8', '#4e96c8', '#5aa4d0', '#ffffff'],
-          },
-          blending: 'overlay',
-          opacity: { center: 0.6, edge: 0.3 },
-          skew: -2,
-          shapes: ['c'],
-        });
-      } catch (e) {
-        console.error('FinisherHeader init error:', e);
-      }
-    };
-    loadFinisher();
-  }, []);
 
   // Scroll-driven animations (IntersectionObserver)
   useEffect(() => {
@@ -141,12 +108,8 @@ export default function ContentPage() {
 
   return (
     <>
-      <div className="finisher-header" />
       <FixedHeader />
       <OverlayMenu />
-
-      {/* Floating Ocean Particles */}
-      <ContentParticles />
 
       {/* Interactive 3D Deep-Ocean Aquarium */}
       <AquariumScene />

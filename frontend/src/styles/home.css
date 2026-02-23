@@ -7,6 +7,15 @@
                 linear-gradient(180deg, #010c1b 0%, #09173A 48%, #00060d 100%);
     overflow: hidden;
     isolation: isolate;
+    animation: hueShift 20s ease-in-out infinite;
+}
+
+@keyframes hueShift {
+    0%   { filter: hue-rotate(0deg)   brightness(1); }
+    25%  { filter: hue-rotate(25deg)  brightness(1.05); }
+    50%  { filter: hue-rotate(-15deg) brightness(1.02); }
+    75%  { filter: hue-rotate(20deg)  brightness(1.04); }
+    100% { filter: hue-rotate(0deg)   brightness(1); }
 }
 
 /* Ripple canvas layer */
