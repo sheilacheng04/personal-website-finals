@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsString, MaxLength } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, MaxLength } from 'class-validator';
 
 export class CreateFeedbackDto {
   @IsString()
@@ -6,9 +6,9 @@ export class CreateFeedbackDto {
   @MaxLength(100)
   name: string;
 
-  @IsEmail()
-  @IsNotEmpty()
-  email: string;
+  @IsString()
+  @IsOptional()
+  email?: string;
 
   @IsString()
   @IsNotEmpty()

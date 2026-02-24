@@ -3,7 +3,7 @@ import { api } from '../../services/api';
 import { supabase } from '../../services/supabaseClient';
 
 export default function FeedbackForm({ onSubmitSuccess }) {
-  const [form, setForm] = useState({ name: '', email: '', message: '' });
+  const [form, setForm] = useState({ name: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successMsg, setSuccessMsg] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
@@ -18,7 +18,7 @@ export default function FeedbackForm({ onSubmitSuccess }) {
       // Try backend API first
       await api.submitFeedback(form);
       setSuccessMsg('Your message has been sent! Thanks for reaching out.');
-      setForm({ name: '', email: '', message: '' });
+      setForm({ name: '', message: '' });
 
       // Notify parent to refresh aquarium
       if (onSubmitSuccess) onSubmitSuccess();
@@ -28,7 +28,7 @@ export default function FeedbackForm({ onSubmitSuccess }) {
         const { error } = await supabase.from('feedback').insert([form]).select();
         if (error) throw error;
         setSuccessMsg('Your message has been sent! Thanks for reaching out.');
-        setForm({ name: '', email: '', message: '' });
+        setForm({ name: '', message: '' });
 
         // Notify parent to refresh aquarium
         if (onSubmitSuccess) onSubmitSuccess();
@@ -51,14 +51,6 @@ export default function FeedbackForm({ onSubmitSuccess }) {
         className="form-input"
         value={form.name}
         onChange={(e) => setForm({ ...form, name: e.target.value })}
-        required
-      />
-      <input
-        type="email"
-        placeholder="Your Email"
-        className="form-input"
-        value={form.email}
-        onChange={(e) => setForm({ ...form, email: e.target.value })}
         required
       />
       <textarea
