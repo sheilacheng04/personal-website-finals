@@ -184,7 +184,7 @@ body::-webkit-scrollbar {
     width: min(350px, 80vw);
     max-width: 350px;
     height: 100%;
-    background: rgba(1, 12, 27, 0.05);
+    background: rgba(var(--theme-very-dark), 0.05);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     z-index: 2000;
@@ -279,9 +279,9 @@ body::-webkit-scrollbar {
     color: white;
     transform: translateX(10px) scale(1.05);
     letter-spacing: 2px;
-    text-shadow: 0 0 10px rgba(100, 200, 240, 0.8),
-                 0 0 20px rgba(100, 200, 240, 0.6),
-                 0 0 30px rgba(100, 200, 240, 0.4);
+    text-shadow: 0 0 10px rgba(var(--theme-very-light), 0.8),
+                 0 0 20px rgba(var(--theme-very-light), 0.6),
+                 0 0 30px rgba(var(--theme-very-light), 0.4);
 }
 
 .overlay-link:hover::after {
@@ -393,7 +393,7 @@ body::-webkit-scrollbar {
     pointer-events: none;
     filter: blur(0.5px);
     box-shadow: 0 0 8px rgba(255, 255, 255, 0.6),
-                0 0 12px rgba(100, 200, 240, 0.3);
+                0 0 12px rgba(var(--theme-very-light), 0.3);
 }
 
 /* Small particles */
@@ -582,7 +582,7 @@ body::-webkit-scrollbar {
     border-radius: clamp(12px, 2vw, 16px);
     overflow: hidden;
     min-height: clamp(80px, 15vh, 120px);
-    box-shadow: 0 12px 40px rgba(0, 20, 60, 0.3),
+    box-shadow: 0 12px 40px rgba(var(--theme-very-dark), 0.3),
                 0 4px 12px rgba(var(--theme-light), 0.15),
                 0 1px 2px rgba(255, 255, 255, 0.1) inset,
                 0 -1px 2px rgba(0, 0, 0, 0.05) inset;
@@ -609,7 +609,7 @@ body::-webkit-scrollbar {
 .profile-box:hover {
     transform: translateY(-8px) scale(1.02);
     box-shadow: 
-        0 20px 60px rgba(0, 20, 60, 0.4),
+        0 20px 60px rgba(var(--theme-very-dark), 0.4),
         0 10px 30px rgba(var(--theme-light), 0.3),
         0 5px 15px rgba(var(--theme-medium), 0.25),
         inset 0 2px 4px rgba(255, 255, 255, 0.2);
@@ -636,14 +636,14 @@ body::-webkit-scrollbar {
 
 /* Box 1 - Top left */
 .box-1 {
-    grid-column: 1 / 6;
+    grid-column: 1 / 7;
     grid-row: 1;
     min-height: 180px;
 }
 
 /* Box 2 - Top right - Skills */
 .box-2 {
-    grid-column: 6 / 13;
+    grid-column: 7 / 13;
     grid-row: 1 / 3;
     min-height: 300px;
 }
@@ -655,9 +655,16 @@ body::-webkit-scrollbar {
     min-height: 80px;
 }
 
-/* Box 4 - Small right */
+/* Box 4 - Small middle-right */
 .box-4 {
-    grid-column: 3 / 6;
+    grid-column: 3 / 5;
+    grid-row: 2;
+    min-height: 80px;
+}
+
+/* Box Photobooth - Small right */
+.box-photobooth {
+    grid-column: 5 / 7;
     grid-row: 2;
     min-height: 80px;
 }
@@ -692,7 +699,7 @@ body::-webkit-scrollbar {
 
 /* Mobile: Stack all boxes */
 @media (max-width: 768px) {
-    .box-1, .box-2, .box-3, .box-4, .box-5, .box-6, .box-7, .box-8 {
+    .box-1, .box-2, .box-3, .box-4, .box-photobooth, .box-5, .box-6, .box-7, .box-8 {
         grid-column: 1 / -1;
         grid-row: auto;
         min-height: auto;
@@ -855,6 +862,45 @@ body::-webkit-scrollbar {
 
 .cv-text {
     font-size: 16px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Photobooth Box */
+.photobooth-box {
+    padding: 0;
+}
+
+.photobooth-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    padding: 20px;
+}
+
+.photobooth-link:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.photobooth-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.photobooth-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+.photobooth-text {
+    font-size: clamp(13px, 1.5vw, 16px);
     font-weight: 600;
     color: rgba(255, 255, 255, 0.9);
 }
@@ -1058,7 +1104,7 @@ body::-webkit-scrollbar {
     padding: 0px min(65px, 5vw) 100px min(60px, 5vw);
     min-height: 500px;
     box-shadow: 
-        0 20px 60px rgba(0, 30, 80, 0.4),
+        0 20px 60px rgba(var(--theme-very-dark), 0.4),
         0 8px 25px rgba(var(--theme-light), 0.2),
         inset 0 2px 4px rgba(255, 255, 255, 0.3),
         inset 0 -2px 4px rgba(var(--theme-light), 0.15);
@@ -1135,7 +1181,7 @@ body::-webkit-scrollbar {
 .projects-fourth-container:hover {
     transform: translateY(-8px) scale(1.02);
     box-shadow: 
-        0 20px 60px rgba(0, 20, 60, 0.4),
+        0 20px 60px rgba(var(--theme-very-dark), 0.4),
         0 10px 30px rgba(var(--theme-light), 0.3),
         0 5px 15px rgba(var(--theme-medium), 0.25),
         inset 0 2px 4px rgba(255, 255, 255, 0.2);
@@ -1284,7 +1330,7 @@ body::-webkit-scrollbar {
 }
 
 .poster-card.center .poster-thumbnail {
-    box-shadow: 0 6px 20px rgba(0, 20, 60, 0.35),
+    box-shadow: 0 6px 20px rgba(var(--theme-very-dark), 0.35),
                 0 3px 10px rgba(var(--theme-light), 0.2),
                 0 1px 4px rgba(var(--theme-medium), 0.15),
                 inset 0 1px 2px rgba(255, 255, 255, 0.12);
@@ -1313,7 +1359,7 @@ body::-webkit-scrollbar {
         rgba(var(--theme-light), 0.08) 50%, 
         rgba(var(--theme-dark), 0.06) 100%);
     backdrop-filter: blur(8px) saturate(150%);
-    box-shadow: 0 4px 15px rgba(0, 20, 60, 0.3),
+    box-shadow: 0 4px 15px rgba(var(--theme-very-dark), 0.3),
                 0 2px 6px rgba(var(--theme-light), 0.15),
                 inset 0 1px 2px rgba(255, 255, 255, 0.1);
     transition: all 0.3s ease;
@@ -1338,7 +1384,7 @@ body::-webkit-scrollbar {
 }
 
 .poster-card:hover .poster-thumbnail {
-    box-shadow: 0 8px 30px rgba(0, 20, 60, 0.4),
+    box-shadow: 0 8px 30px rgba(var(--theme-very-dark), 0.4),
                 0 4px 15px rgba(var(--theme-light), 0.3),
                 0 2px 8px rgba(var(--theme-medium), 0.25),
                 inset 0 2px 4px rgba(255, 255, 255, 0.15);
@@ -1396,7 +1442,7 @@ body::-webkit-scrollbar {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(5, 18, 45, 0.7);
+    background: rgba(var(--theme-very-dark), 0.7);
     backdrop-filter: blur(25px) saturate(150%);
     -webkit-backdrop-filter: blur(25px) saturate(150%);
     display: flex;
@@ -1492,7 +1538,7 @@ body::-webkit-scrollbar {
     overflow: hidden;
     padding: 40px;
     min-height: 300px;
-    box-shadow: 0 12px 40px rgba(0, 20, 60, 0.3),
+    box-shadow: 0 12px 40px rgba(var(--theme-very-dark), 0.3),
                 0 4px 12px rgba(var(--theme-light), 0.15),
                 0 1px 2px rgba(255, 255, 255, 0.1) inset,
                 0 -1px 2px rgba(0, 0, 0, 0.05) inset;
@@ -1529,7 +1575,7 @@ body::-webkit-scrollbar {
 .projects-contact-links-container:hover {
     transform: translateY(-8px) scale(1.02);
     box-shadow: 
-        0 20px 60px rgba(0, 20, 60, 0.4),
+        0 20px 60px rgba(var(--theme-very-dark), 0.4),
         0 10px 30px rgba(var(--theme-light), 0.3),
         0 5px 15px rgba(var(--theme-medium), 0.25),
         inset 0 2px 4px rgba(255, 255, 255, 0.2);
@@ -1586,7 +1632,7 @@ body::-webkit-scrollbar {
     text-decoration: none;
     cursor: pointer;
     overflow: hidden;
-    box-shadow: 0 12px 40px rgba(0, 20, 60, 0.3),
+    box-shadow: 0 12px 40px rgba(var(--theme-very-dark), 0.3),
                 0 4px 12px rgba(var(--theme-light), 0.15),
                 0 1px 2px rgba(255, 255, 255, 0.1) inset,
                 0 -1px 2px rgba(0, 0, 0, 0.05) inset;
@@ -1612,7 +1658,7 @@ body::-webkit-scrollbar {
 .contact-link-card:hover {
     transform: translateY(-8px) scale(1.1);
     box-shadow: 
-        0 20px 60px rgba(0, 20, 60, 0.4),
+        0 20px 60px rgba(var(--theme-very-dark), 0.4),
         0 10px 30px rgba(var(--theme-light), 0.3),
         0 5px 15px rgba(var(--theme-medium), 0.25),
         inset 0 2px 4px rgba(255, 255, 255, 0.2);
@@ -1737,24 +1783,24 @@ body::-webkit-scrollbar {
         rgba(var(--theme-dark), 0.06) 100%);
     backdrop-filter: blur(40px) saturate(200%) brightness(1.08);
     -webkit-backdrop-filter: blur(40px) saturate(200%) brightness(1.08);
-    border-left: 3px solid rgba(180, 220, 255, 0.5);
-    border-right: 3px solid rgba(180, 220, 255, 0.5);
-    border-bottom: 3px solid rgba(150, 200, 240, 0.45);
+    border-left: 3px solid rgba(var(--theme-very-light), 0.5);
+    border-right: 3px solid rgba(var(--theme-very-light), 0.5);
+    border-bottom: 3px solid rgba(var(--theme-very-light), 0.45);
     border-top: 1px solid rgba(255, 255, 255, 0.4);
     border-radius: 0;
     padding: 30px 20px;
     box-shadow: 
-        0 25px 80px rgba(0, 40, 80, 0.5),
-        0 10px 40px rgba(100, 180, 230, 0.2),
+        0 25px 80px rgba(var(--theme-very-dark), 0.5),
+        0 10px 40px rgba(var(--theme-light), 0.2),
         inset 0 1px 0 rgba(255, 255, 255, 0.4),
         inset 0 2px 6px rgba(255, 255, 255, 0.3),
-        inset -12px 0 24px -8px rgba(180, 220, 255, 0.35),
-        inset 12px 0 24px -8px rgba(180, 220, 255, 0.35),
-        inset 30px 0 4px -26px rgba(120, 190, 240, 0.6),
-        inset -30px 0 4px -26px rgba(120, 190, 240, 0.6),
-        inset 0 -28px 4px -24px rgba(100, 180, 230, 0.5),
-        inset 30px -28px 5px -24px rgba(90, 170, 230, 0.7),
-        inset -30px -28px 5px -24px rgba(90, 170, 230, 0.7);
+        inset -12px 0 24px -8px rgba(var(--theme-very-light), 0.35),
+        inset 12px 0 24px -8px rgba(var(--theme-very-light), 0.35),
+        inset 30px 0 4px -26px rgba(var(--theme-very-light), 0.6),
+        inset -30px 0 4px -26px rgba(var(--theme-very-light), 0.6),
+        inset 0 -28px 4px -24px rgba(var(--theme-light), 0.5),
+        inset 30px -28px 5px -24px rgba(var(--theme-light), 0.7),
+        inset -30px -28px 5px -24px rgba(var(--theme-light), 0.7);
     overflow: visible;
     transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 }
@@ -1861,24 +1907,24 @@ body::-webkit-scrollbar {
         rgba(var(--theme-dark), 0.06) 100%);
     backdrop-filter: blur(40px) saturate(200%) brightness(1.08);
     -webkit-backdrop-filter: blur(40px) saturate(200%) brightness(1.08);
-    border-left: 3px solid rgba(180, 220, 255, 0.5);
-    border-right: 3px solid rgba(180, 220, 255, 0.5);
-    border-bottom: 3px solid rgba(150, 200, 240, 0.45);
+    border-left: 3px solid rgba(var(--theme-very-light), 0.5);
+    border-right: 3px solid rgba(var(--theme-very-light), 0.5);
+    border-bottom: 3px solid rgba(var(--theme-very-light), 0.45);
     border-top: 1px solid rgba(255, 255, 255, 0.4);
     border-radius: 0;
     padding: 30px 20px;
     box-shadow: 
-        0 25px 80px rgba(0, 40, 80, 0.5),
-        0 10px 40px rgba(100, 180, 230, 0.2),
+        0 25px 80px rgba(var(--theme-very-dark), 0.5),
+        0 10px 40px rgba(var(--theme-light), 0.2),
         inset 0 1px 0 rgba(255, 255, 255, 0.4),
         inset 0 2px 6px rgba(255, 255, 255, 0.3),
-        inset -12px 0 24px -8px rgba(180, 220, 255, 0.35),
-        inset 12px 0 24px -8px rgba(180, 220, 255, 0.35),
-        inset 30px 0 4px -26px rgba(120, 190, 240, 0.6),
-        inset -30px 0 4px -26px rgba(120, 190, 240, 0.6),
-        inset 0 -28px 4px -24px rgba(100, 180, 230, 0.5),
-        inset 30px -28px 5px -24px rgba(90, 170, 230, 0.7),
-        inset -30px -28px 5px -24px rgba(90, 170, 230, 0.7);
+        inset -12px 0 24px -8px rgba(var(--theme-very-light), 0.35),
+        inset 12px 0 24px -8px rgba(var(--theme-very-light), 0.35),
+        inset 30px 0 4px -26px rgba(var(--theme-very-light), 0.6),
+        inset -30px 0 4px -26px rgba(var(--theme-very-light), 0.6),
+        inset 0 -28px 4px -24px rgba(var(--theme-light), 0.5),
+        inset 30px -28px 5px -24px rgba(var(--theme-light), 0.7),
+        inset -30px -28px 5px -24px rgba(var(--theme-light), 0.7);
     overflow: visible;
     transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 }
@@ -1981,7 +2027,7 @@ body::-webkit-scrollbar {
     border-radius: 20px;
     overflow: hidden;
     padding: min(40px, 5vw);
-    box-shadow: 0 8px 32px rgba(0, 20, 60, 0.3),
+    box-shadow: 0 8px 32px rgba(var(--theme-very-dark), 0.3),
                 0 4px 16px rgba(var(--theme-light), 0.2),
                 inset 0 1px 2px rgba(255, 255, 255, 0.2);
     transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
@@ -2010,7 +2056,7 @@ body::-webkit-scrollbar {
         rgba(var(--theme-light), 0.14) 50%, 
         rgba(var(--theme-dark), 0.12) 100%);
     transform: translateY(-3px);
-    box-shadow: 0 12px 40px rgba(0, 20, 60, 0.4),
+    box-shadow: 0 12px 40px rgba(var(--theme-very-dark), 0.4),
                 0 6px 20px rgba(var(--theme-light), 0.3),
                 inset 0 1px 3px rgba(255, 255, 255, 0.3);
 }
@@ -2051,13 +2097,13 @@ body::-webkit-scrollbar {
 
 .contact-link {
     font-size: 14px;
-    color: rgba(100, 180, 255, 0.9);
+    color: rgba(var(--theme-light), 0.9);
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
 .contact-link:hover {
-    color: rgba(150, 200, 255, 1);
+    color: rgba(var(--theme-very-light), 1);
 }
 
 .feedback-form {
@@ -2253,7 +2299,7 @@ body::-webkit-scrollbar {
     font-weight: 500;
     cursor: pointer;
     transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-    box-shadow: 0 8px 24px rgba(0, 20, 60, 0.3),
+    box-shadow: 0 8px 24px rgba(var(--theme-very-dark), 0.3),
                 0 4px 12px rgba(var(--theme-light), 0.2),
                 inset 0 1px 2px rgba(255, 255, 255, 0.2);
 }
@@ -2265,7 +2311,7 @@ body::-webkit-scrollbar {
         rgba(var(--theme-dark), 0.14) 100%);
     border-color: rgba(255, 255, 255, 0.35);
     transform: translateY(-3px);
-    box-shadow: 0 12px 32px rgba(0, 20, 60, 0.4),
+    box-shadow: 0 12px 32px rgba(var(--theme-very-dark), 0.4),
                 0 6px 16px rgba(var(--theme-light), 0.3),
                 inset 0 1px 3px rgba(255, 255, 255, 0.3);
 }
@@ -2314,7 +2360,7 @@ body::-webkit-scrollbar {
 .credits-name {
     color: rgba(255, 255, 255, 0.95);
     font-weight: 600;
-    text-shadow: 0 2px 8px rgba(100, 180, 220, 0.4);
+    text-shadow: 0 2px 8px rgba(var(--theme-light), 0.4);
 }
 
 .credits-tagline {
@@ -2362,8 +2408,8 @@ body::-webkit-scrollbar {
 
 .form-submit {
     padding: 12px 24px;
-    background: rgba(100, 180, 255, 0.2);
-    border: 1px solid rgba(100, 180, 255, 0.4);
+    background: rgba(var(--theme-light), 0.2);
+    border: 1px solid rgba(var(--theme-light), 0.4);
     border-radius: 8px;
     color: white;
     font-size: 14px;
@@ -2373,8 +2419,8 @@ body::-webkit-scrollbar {
 }
 
 .form-submit:hover {
-    background: rgba(100, 180, 255, 0.3);
-    border-color: rgba(100, 180, 255, 0.6);
+    background: rgba(var(--theme-light), 0.3);
+    border-color: rgba(var(--theme-light), 0.6);
     transform: translateY(-2px);
 }
 
@@ -2574,7 +2620,7 @@ body::-webkit-scrollbar {
     background: radial-gradient(circle at 35% 35%, rgba(255,255,255,0.22), rgba(var(--theme-light),0.18) 50%, rgba(var(--theme-dark),0.14) 100%);
     transform: translateY(-12px);
     box-shadow: 
-        0 30px 80px rgba(0, 30, 80, 0.5),
+        0 30px 80px rgba(var(--theme-very-dark), 0.5),
         0 15px 45px rgba(var(--theme-light), 0.4),
         0 8px 25px rgba(var(--theme-medium), 0.35),
         inset 0 2px 6px rgba(255, 255, 255, 0.4),
@@ -2653,8 +2699,8 @@ body::-webkit-scrollbar {
     position: relative;
     overflow: hidden;
     box-shadow: 
-        0 12px 40px rgba(0, 20, 60, 0.35),
-        0 6px 20px rgba(100, 180, 220, 0.2),
+        0 12px 40px rgba(var(--theme-very-dark), 0.35),
+        0 6px 20px rgba(var(--theme-light), 0.2),
         0 15px 50px rgba(0, 0, 0, 0.2),
         inset 0 0 0 1px rgba(255, 255, 255, 0.1);
     transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
@@ -2753,10 +2799,10 @@ body::-webkit-scrollbar {
         rgba(var(--theme-dark), 0.12) 100%);
     border-color: rgba(var(--theme-light), 0.6);
     box-shadow: 
-        0 20px 60px rgba(0, 20, 60, 0.45),
+        0 20px 60px rgba(var(--theme-very-dark), 0.45),
         0 12px 40px rgba(var(--theme-light), 0.4),
         0 8px 25px rgba(var(--theme-medium), 0.35),
-        0 20px 60px rgba(31, 38, 135, 0.3),
+        0 20px 60px rgba(var(--theme-very-dark), 0.3),
         inset 0 0 0 1px rgba(255, 255, 255, 0.2);
     transform: translateY(-5px) scale(1.05);
 }
@@ -2798,7 +2844,7 @@ body::-webkit-scrollbar {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(1, 12, 27, 0.85);
+    background: rgba(var(--theme-very-dark), 0.85);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
 }
@@ -2933,21 +2979,21 @@ body::-webkit-scrollbar {
     display: inline-block;
     margin: clamp(8px, 1vw, 10px) auto 0;
     padding: clamp(10px, 1.2vw, 12px) clamp(25px, 3vw, 30px);
-    background: linear-gradient(135deg, rgba(100, 180, 220, 0.4), rgba(70, 150, 200, 0.4));
+    background: linear-gradient(135deg, rgba(var(--theme-light), 0.4), rgba(var(--theme-medium), 0.4));
     color: white;
     text-decoration: none;
     border-radius: 25px;
     font-size: clamp(14px, 1.8vw, 16px);
     font-weight: 600;
-    border: 1.5px solid rgba(100, 180, 220, 0.3);
+    border: 1.5px solid rgba(var(--theme-light), 0.3);
     transition: all 0.3s ease;
     text-align: center;
 }
 
 .modal-link:hover {
-    background: linear-gradient(135deg, rgba(100, 180, 220, 0.6), rgba(70, 150, 200, 0.6));
+    background: linear-gradient(135deg, rgba(var(--theme-light), 0.6), rgba(var(--theme-medium), 0.6));
     transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(100, 180, 220, 0.3);
+    box-shadow: 0 10px 30px rgba(var(--theme-light), 0.3);
 }
 
 /* Projects Info Content */
@@ -3025,7 +3071,7 @@ body::-webkit-scrollbar {
     padding: 30px 20px;
     margin: 0;
     box-shadow: 
-        0 25px 80px rgba(0, 40, 80, 0.5),
+        0 25px 80px rgba(var(--theme-very-dark), 0.5),
         0 10px 40px rgba(var(--theme-light), 0.2),
         inset 0 1px 0 rgba(255, 255, 255, 0.4),
         inset 0 2px 6px rgba(255, 255, 255, 0.3),
@@ -3042,27 +3088,27 @@ body::-webkit-scrollbar {
 
 .feedback-aquarium:hover {
     background: linear-gradient(135deg,
-        rgba(200, 230, 255, 0.22) 0%,
-        rgba(180, 220, 255, 0.16) 30%,
-        rgba(160, 210, 250, 0.12) 60%,
-        rgba(140, 200, 245, 0.10) 100%);
-    border-left-color: rgba(180, 220, 255, 0.65);
-    border-right-color: rgba(180, 220, 255, 0.65);
-    border-bottom-color: rgba(150, 200, 240, 0.6);
+        rgba(var(--theme-very-light), 0.22) 0%,
+        rgba(var(--theme-very-light), 0.16) 30%,
+        rgba(var(--theme-very-light), 0.12) 60%,
+        rgba(var(--theme-very-light), 0.10) 100%);
+    border-left-color: rgba(var(--theme-very-light), 0.65);
+    border-right-color: rgba(var(--theme-very-light), 0.65);
+    border-bottom-color: rgba(var(--theme-very-light), 0.6);
     border-top-color: rgba(255, 255, 255, 0.55);
     box-shadow: 
-        0 30px 100px rgba(0, 60, 120, 0.6),
-        0 15px 50px rgba(100, 180, 230, 0.35),
-        0 5px 30px rgba(120, 200, 255, 0.25),
+        0 30px 100px rgba(var(--theme-dark), 0.6),
+        0 15px 50px rgba(var(--theme-light), 0.35),
+        0 5px 30px rgba(var(--theme-very-light), 0.25),
         inset 0 1px 0 rgba(255, 255, 255, 0.5),
         inset 0 2px 8px rgba(255, 255, 255, 0.4),
-        inset -12px 0 28px -8px rgba(180, 220, 255, 0.45),
-        inset 12px 0 28px -8px rgba(180, 220, 255, 0.45),
-        inset 30px 0 5px -26px rgba(120, 190, 240, 0.75),
-        inset -30px 0 5px -26px rgba(120, 190, 240, 0.75),
-        inset 0 -28px 5px -24px rgba(100, 180, 230, 0.65),
-        inset 30px -28px 6px -24px rgba(90, 170, 230, 0.85),
-        inset -30px -28px 6px -24px rgba(90, 170, 230, 0.85);
+        inset -12px 0 28px -8px rgba(var(--theme-very-light), 0.45),
+        inset 12px 0 28px -8px rgba(var(--theme-very-light), 0.45),
+        inset 30px 0 5px -26px rgba(var(--theme-very-light), 0.75),
+        inset -30px 0 5px -26px rgba(var(--theme-very-light), 0.75),
+        inset 0 -28px 5px -24px rgba(var(--theme-light), 0.65),
+        inset 30px -28px 6px -24px rgba(var(--theme-light), 0.85),
+        inset -30px -28px 6px -24px rgba(var(--theme-light), 0.85);
     transform: translateY(-3px);
 }
 
@@ -3138,9 +3184,9 @@ body::-webkit-scrollbar {
     width: 2px;
     background: linear-gradient(180deg,
         transparent 0%,
-        rgba(100, 150, 200, 0.4) 5%,
-        rgba(100, 150, 200, 0.5) 50%,
-        rgba(100, 150, 200, 0.6) 100%);
+        rgba(var(--theme-medium), 0.4) 5%,
+        rgba(var(--theme-medium), 0.5) 50%,
+        rgba(var(--theme-medium), 0.6) 100%);
     pointer-events: none;
     z-index: 10;
 }
@@ -3154,9 +3200,9 @@ body::-webkit-scrollbar {
     width: 2px;
     background: linear-gradient(180deg,
         transparent 0%,
-        rgba(100, 150, 200, 0.4) 5%,
-        rgba(100, 150, 200, 0.5) 50%,
-        rgba(100, 150, 200, 0.6) 100%);
+        rgba(var(--theme-medium), 0.4) 5%,
+        rgba(var(--theme-medium), 0.5) 50%,
+        rgba(var(--theme-medium), 0.6) 100%);
     pointer-events: none;
     z-index: 10;
 }
@@ -3168,7 +3214,7 @@ body::-webkit-scrollbar {
     bottom: 60px;
     width: 78px;
     height: 2px;
-    background: rgba(100, 150, 200, 0.6);
+    background: rgba(var(--theme-medium), 0.6);
     transform-origin: left center;
     transform: rotate(130deg);
     pointer-events: none;
@@ -3182,7 +3228,7 @@ body::-webkit-scrollbar {
     bottom: 60px;
     width: 78px;
     height: 2px;
-    background: rgba(100, 150, 200, 0.6);
+    background: rgba(var(--theme-medium), 0.6);
     transform-origin: right center;
     transform: rotate(-130deg);
     pointer-events: none;
@@ -3196,7 +3242,7 @@ body::-webkit-scrollbar {
     right: 50px;
     bottom: 60px;
     height: 2px;
-    background: rgba(100, 150, 200, 0.6);
+    background: rgba(var(--theme-medium), 0.6);
     pointer-events: none;
     z-index: 10;
 }
@@ -3224,13 +3270,13 @@ body::-webkit-scrollbar {
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    background: rgba(100, 180, 255, 0.15);
+    background: rgba(var(--theme-light), 0.15);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 2px solid rgba(100, 180, 255, 0.4);
+    border: 2px solid rgba(var(--theme-light), 0.4);
     box-shadow: 
-        0 8px 32px 0 rgba(31, 38, 135, 0.37),
-        inset 0 0 20px rgba(100, 180, 255, 0.1);
+        0 8px 32px 0 rgba(var(--theme-very-dark), 0.37),
+        inset 0 0 20px rgba(var(--theme-light), 0.1);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -3244,12 +3290,12 @@ body::-webkit-scrollbar {
 }
 
 .feedback-circle:hover {
-    background: rgba(100, 180, 255, 0.25);
-    border-color: rgba(100, 180, 255, 0.6);
+    background: rgba(var(--theme-light), 0.25);
+    border-color: rgba(var(--theme-light), 0.6);
     transform: scale(1.1);
     box-shadow: 
-        0 12px 48px 0 rgba(31, 38, 135, 0.5),
-        inset 0 0 30px rgba(100, 180, 255, 0.2);
+        0 12px 48px 0 rgba(var(--theme-very-dark), 0.5),
+        inset 0 0 30px rgba(var(--theme-light), 0.2);
 }
 
 .feedback-circle-name {
@@ -3397,7 +3443,7 @@ body::-webkit-scrollbar {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(5, 18, 45, 0.5);
+    background: rgba(var(--theme-very-dark), 0.5);
     backdrop-filter: blur(20px) saturate(150%);
     -webkit-backdrop-filter: blur(20px) saturate(150%);
     display: flex;
@@ -3476,7 +3522,7 @@ body::-webkit-scrollbar {
 }
 
 .feedback-modal-email {
-    color: rgba(100, 180, 255, 0.9);
+    color: rgba(var(--theme-light), 0.9);
     font-size: 16px;
     margin-bottom: 25px;
     font-weight: 500;
@@ -3520,7 +3566,7 @@ body::-webkit-scrollbar {
     inset: -14% -12%;
     background: radial-gradient(circle at 28% 55%, rgba(255,255,255,0.01), transparent 26%),
                 radial-gradient(circle at 72% 40%, rgba(255,255,255,0.01), transparent 24%),
-                linear-gradient(150deg, rgba(255,255,255,0.008), rgba(0,40,85,0.1));
+                linear-gradient(150deg, rgba(255,255,255,0.008), rgba(var(--theme-dark),0.1));
     mix-blend-mode: screen;
     opacity: 0.1;
     animation: waterDrift 24s ease-in-out infinite;
@@ -3547,7 +3593,7 @@ body::-webkit-scrollbar {
     border: 2px solid rgba(255, 255, 255, 0.2);
     border-radius: 16px;
     box-shadow: 
-        0 25px 70px rgba(0, 30, 80, 0.4),
+        0 25px 70px rgba(var(--theme-very-dark), 0.4),
         0 10px 25px rgba(var(--theme-light), 0.2),
         inset 0 2px 4px rgba(255, 255, 255, 0.3);
     z-index: 2;
@@ -3573,7 +3619,7 @@ body::-webkit-scrollbar {
 .contacts-content:hover {
     transform: translateY(-12px);
     box-shadow: 
-        0 35px 90px rgba(0, 30, 80, 0.5),
+        0 35px 90px rgba(var(--theme-very-dark), 0.5),
         0 20px 50px rgba(var(--theme-light), 0.4),
         0 10px 25px rgba(var(--theme-medium), 0.35),
         inset 0 2px 6px rgba(255, 255, 255, 0.4);
@@ -3850,8 +3896,8 @@ html {
 }
 
 @keyframes borderGlow {
-    0%, 100% { border-color: rgba(100, 180, 220, 0.25); }
-    50%  { border-color: rgba(140, 200, 255, 0.5); }
+    0%, 100% { border-color: rgba(var(--theme-light), 0.25); }
+    50%  { border-color: rgba(var(--theme-very-light), 0.5); }
 }
 
 @keyframes floatGlass {
@@ -3886,17 +3932,17 @@ html {
     /* Multi-layer glass background with animated inner light */
     background:
         radial-gradient(ellipse at 20% 20%, rgba(255,255,255,0.18) 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 80%, rgba(100,180,255,0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(var(--theme-light),0.08) 0%, transparent 50%),
         radial-gradient(circle at 50% 50%, rgba(255,255,255,0.06), rgba(var(--theme-light),0.08) 40%, rgba(var(--theme-dark),0.06) 100%) !important;
     backdrop-filter: blur(45px) saturate(200%) brightness(1.05) !important;
     -webkit-backdrop-filter: blur(45px) saturate(200%) brightness(1.05) !important;
     border: 1.5px solid rgba(255, 255, 255, 0.22) !important;
     box-shadow:
-        0 8px 32px rgba(0, 20, 60, 0.35),
-        0 2px 8px rgba(100, 180, 255, 0.12),
+        0 8px 32px rgba(var(--theme-very-dark), 0.35),
+        0 2px 8px rgba(var(--theme-light), 0.12),
         inset 0 1px 0 rgba(255, 255, 255, 0.35),
         inset 0 -1px 0 rgba(255, 255, 255, 0.08),
-        inset 0 0 60px rgba(100, 180, 220, 0.04) !important;
+        inset 0 0 60px rgba(var(--theme-light), 0.04) !important;
     animation: borderGlow 6s ease-in-out infinite !important;
     position: relative;
 }
@@ -3919,7 +3965,7 @@ html {
     background: linear-gradient(90deg,
         transparent 0%,
         rgba(255,255,255,0.5) 30%,
-        rgba(200,230,255,0.7) 50%,
+        rgba(var(--theme-very-light),0.7) 50%,
         rgba(255,255,255,0.5) 70%,
         transparent 100%) !important;
     background-size: 200% 100% !important;
@@ -3940,7 +3986,7 @@ html {
     right: -30% !important;
     width: 60% !important;
     height: 60% !important;
-    background: radial-gradient(circle, rgba(100, 180, 255, 0.12) 0%, transparent 70%) !important;
+    background: radial-gradient(circle, rgba(var(--theme-light), 0.12) 0%, transparent 70%) !important;
     pointer-events: none !important;
     z-index: 0 !important;
     opacity: 0.6 !important;
@@ -3958,16 +4004,16 @@ html {
 .contacts-content:hover {
     background:
         radial-gradient(ellipse at 25% 25%, rgba(255,255,255,0.28) 0%, transparent 45%),
-        radial-gradient(ellipse at 75% 75%, rgba(100,180,255,0.15) 0%, transparent 45%),
+        radial-gradient(ellipse at 75% 75%, rgba(var(--theme-light),0.15) 0%, transparent 45%),
         radial-gradient(circle at 50% 50%, rgba(255,255,255,0.10), rgba(var(--theme-light),0.14) 40%, rgba(var(--theme-dark),0.10) 100%) !important;
-    border-color: rgba(180, 220, 255, 0.55) !important;
+    border-color: rgba(var(--theme-very-light), 0.55) !important;
     box-shadow:
-        0 20px 60px rgba(0, 30, 80, 0.45),
-        0 8px 24px rgba(100, 180, 255, 0.25),
-        0 0 30px rgba(100, 200, 255, 0.15),
+        0 20px 60px rgba(var(--theme-very-dark), 0.45),
+        0 8px 24px rgba(var(--theme-light), 0.25),
+        0 0 30px rgba(var(--theme-very-light), 0.15),
         inset 0 2px 0 rgba(255, 255, 255, 0.45),
         inset 0 -1px 0 rgba(255, 255, 255, 0.12),
-        inset 0 0 80px rgba(100, 180, 220, 0.08) !important;
+        inset 0 0 80px rgba(var(--theme-light), 0.08) !important;
     transform: translateY(-6px) scale(1.015) !important;
 }
 
@@ -3992,10 +4038,10 @@ html {
     inset: -2px !important;
     background: conic-gradient(
         from 0deg,
-        rgba(100, 180, 255, 0.3),
-        rgba(140, 100, 255, 0.2),
-        rgba(100, 255, 200, 0.2),
-        rgba(100, 180, 255, 0.3)
+        rgba(var(--theme-light), 0.3),
+        rgba(var(--theme-medium), 0.2),
+        rgba(var(--theme-very-light), 0.2),
+        rgba(var(--theme-light), 0.3)
     ) !important;
     border-radius: inherit !important;
     z-index: -1 !important;
@@ -4007,18 +4053,18 @@ html {
 /* --- Feedback aquarium: deepened glass tank look --- */
 .feedback-aquarium {
     background:
-        linear-gradient(180deg, rgba(100,180,255,0.05) 0%, rgba(0,40,80,0.12) 100%),
+        linear-gradient(180deg, rgba(var(--theme-light),0.05) 0%, rgba(var(--theme-very-dark),0.12) 100%),
         radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.12) 0%, transparent 60%),
-        radial-gradient(circle at 50% 100%, rgba(0,30,80,0.15) 0%, transparent 50%) !important;
-    border: 2px solid rgba(150, 210, 255, 0.35) !important;
+        radial-gradient(circle at 50% 100%, rgba(var(--theme-very-dark),0.15) 0%, transparent 50%) !important;
+    border: 2px solid rgba(var(--theme-very-light), 0.35) !important;
     border-top: 1px solid rgba(255, 255, 255, 0.5) !important;
     box-shadow:
-        0 25px 80px rgba(0, 40, 100, 0.5),
-        0 10px 40px rgba(80, 160, 220, 0.2),
+        0 25px 80px rgba(var(--theme-very-dark), 0.5),
+        0 10px 40px rgba(var(--theme-light), 0.2),
         inset 0 2px 6px rgba(255, 255, 255, 0.3),
-        inset 0 -4px 12px rgba(0, 40, 120, 0.15),
-        inset 12px 0 20px -10px rgba(150, 210, 255, 0.2),
-        inset -12px 0 20px -10px rgba(150, 210, 255, 0.2) !important;
+        inset 0 -4px 12px rgba(var(--theme-dark), 0.15),
+        inset 12px 0 20px -10px rgba(var(--theme-very-light), 0.2),
+        inset -12px 0 20px -10px rgba(var(--theme-very-light), 0.2) !important;
 }
 
 /* --- Feedback form side: frosted card --- */
@@ -4046,9 +4092,9 @@ html {
     height: 200% !important;
     background: conic-gradient(from 180deg at 50% 50%,
         transparent 0deg,
-        rgba(100, 180, 255, 0.04) 90deg,
+        rgba(var(--theme-light), 0.04) 90deg,
         transparent 180deg,
-        rgba(100, 180, 255, 0.04) 270deg,
+        rgba(var(--theme-light), 0.04) 270deg,
         transparent 360deg) !important;
     animation: prismaticEdge 20s linear infinite !important;
     pointer-events: none !important;
@@ -4065,8 +4111,8 @@ html {
 .back-to-top:hover {
     transform: translateY(-4px) scale(1.06) !important;
     box-shadow:
-        0 12px 36px rgba(0, 30, 80, 0.4),
-        0 0 20px rgba(100, 200, 255, 0.2),
+        0 12px 36px rgba(var(--theme-very-dark), 0.4),
+        0 0 20px rgba(var(--theme-very-light), 0.2),
         inset 0 2px 4px rgba(255, 255, 255, 0.3) !important;
 }
 
@@ -4079,7 +4125,7 @@ html {
     -webkit-backdrop-filter: blur(20px) saturate(150%) !important;
     border: 1px solid rgba(255, 255, 255, 0.18) !important;
     box-shadow:
-        0 4px 16px rgba(0, 20, 60, 0.3),
+        0 4px 16px rgba(var(--theme-very-dark), 0.3),
         inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
     transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1) !important;
     overflow: hidden !important;
@@ -4100,10 +4146,10 @@ html {
 
 .poster-card:hover {
     transform: translateY(-8px) scale(1.04) !important;
-    border-color: rgba(140, 200, 255, 0.45) !important;
+    border-color: rgba(var(--theme-very-light), 0.45) !important;
     box-shadow:
-        0 16px 48px rgba(0, 30, 80, 0.4),
-        0 0 24px rgba(100, 180, 255, 0.2),
+        0 16px 48px rgba(var(--theme-very-dark), 0.4),
+        0 0 24px rgba(var(--theme-light), 0.2),
         inset 0 2px 0 rgba(255, 255, 255, 0.3) !important;
 }
 
@@ -4122,8 +4168,8 @@ html {
 .form-input:focus,
 .form-textarea:focus {
     background: rgba(255, 255, 255, 0.10) !important;
-    border-color: rgba(100, 180, 255, 0.45) !important;
-    box-shadow: 0 0 20px rgba(100, 180, 255, 0.15),
+    border-color: rgba(var(--theme-light), 0.45) !important;
+    box-shadow: 0 0 20px rgba(var(--theme-light), 0.15),
                 inset 0 1px 2px rgba(0, 0, 0, 0.1),
                 inset 0 -1px 0 rgba(255, 255, 255, 0.1) !important;
 }
@@ -4136,7 +4182,7 @@ html {
     backdrop-filter: blur(18px) saturate(150%) !important;
     -webkit-backdrop-filter: blur(18px) saturate(150%) !important;
     border: 1px solid rgba(255, 255, 255, 0.18) !important;
-    box-shadow: 0 4px 16px rgba(0, 20, 60, 0.25),
+    box-shadow: 0 4px 16px rgba(var(--theme-very-dark), 0.25),
                 inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
     transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1) !important;
     position: relative !important;
@@ -4156,9 +4202,9 @@ html {
 
 .contact-link-item:hover {
     transform: translateY(-4px) scale(1.03) !important;
-    border-color: rgba(140, 200, 255, 0.4) !important;
-    box-shadow: 0 12px 36px rgba(0, 30, 80, 0.35),
-                0 0 20px rgba(100, 180, 255, 0.15),
+    border-color: rgba(var(--theme-very-light), 0.4) !important;
+    box-shadow: 0 12px 36px rgba(var(--theme-very-dark), 0.35),
+                0 0 20px rgba(var(--theme-light), 0.15),
                 inset 0 2px 0 rgba(255, 255, 255, 0.25) !important;
 }
 
@@ -4171,14 +4217,14 @@ html {
 .project-modal {
     background:
         radial-gradient(ellipse at 20% 20%, rgba(255,255,255,0.15) 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 80%, rgba(100,180,255,0.06) 0%, transparent 50%),
-        rgba(5, 18, 45, 0.85) !important;
+        radial-gradient(ellipse at 80% 80%, rgba(var(--theme-light),0.06) 0%, transparent 50%),
+        rgba(var(--theme-very-dark), 0.85) !important;
     backdrop-filter: blur(50px) saturate(200%) brightness(1.05) !important;
     -webkit-backdrop-filter: blur(50px) saturate(200%) brightness(1.05) !important;
     border: 1.5px solid rgba(255, 255, 255, 0.2) !important;
     box-shadow:
-        0 30px 100px rgba(0, 20, 60, 0.6),
-        0 0 40px rgba(100, 180, 255, 0.1),
+        0 30px 100px rgba(var(--theme-very-dark), 0.6),
+        0 0 40px rgba(var(--theme-light), 0.1),
         inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
 }
 
@@ -4189,8 +4235,8 @@ html {
 .contacts-section,
 .feedback-section {
     background:
-        radial-gradient(ellipse at 20% 30%, rgba(30, 80, 140, 0.06) 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 70%, rgba(50, 100, 180, 0.04) 0%, transparent 50%),
+        radial-gradient(ellipse at 20% 30%, rgba(var(--theme-dark), 0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 70%, rgba(var(--theme-dark), 0.04) 0%, transparent 50%),
         rgb(var(--theme-very-dark)) !important;
 }
 
@@ -4202,7 +4248,7 @@ html {
     backdrop-filter: blur(20px) saturate(150%) !important;
     -webkit-backdrop-filter: blur(20px) saturate(150%) !important;
     border: 1.5px solid rgba(255, 255, 255, 0.2) !important;
-    box-shadow: 0 4px 16px rgba(0, 20, 60, 0.3),
+    box-shadow: 0 4px 16px rgba(var(--theme-very-dark), 0.3),
                 inset 0 1px 2px rgba(255, 255, 255, 0.25) !important;
     transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1) !important;
 }
@@ -4211,10 +4257,10 @@ html {
     background:
         radial-gradient(ellipse at 30% 30%, rgba(255,255,255,0.25) 0%, transparent 50%),
         rgba(var(--theme-light), 0.2) !important;
-    border-color: rgba(140, 200, 255, 0.5) !important;
+    border-color: rgba(var(--theme-very-light), 0.5) !important;
     transform: scale(1.15) !important;
-    box-shadow: 0 8px 28px rgba(0, 30, 80, 0.4),
-                0 0 16px rgba(100, 180, 255, 0.2),
+    box-shadow: 0 8px 28px rgba(var(--theme-very-dark), 0.4),
+                0 0 16px rgba(var(--theme-light), 0.2),
                 inset 0 2px 4px rgba(255, 255, 255, 0.3) !important;
 }
 
@@ -4226,29 +4272,29 @@ html {
 .contact-links-title,
 .projects-title {
     text-shadow:
-        0 0 30px rgba(100, 180, 255, 0.25),
-        0 0 60px rgba(100, 180, 255, 0.1),
+        0 0 30px rgba(var(--theme-light), 0.25),
+        0 0 60px rgba(var(--theme-light), 0.1),
         0 2px 4px rgba(0, 0, 0, 0.3) !important;
 }
 
 /* --- Feedback bubbles: extra glass treatment --- */
 .feedback-circle {
     background:
-        radial-gradient(ellipse at 30% 30%, rgba(255,255,255,0.35) 0%, rgba(200,230,255,0.2) 40%, rgba(150,200,240,0.1) 70%, transparent 100%) !important;
+        radial-gradient(ellipse at 30% 30%, rgba(255,255,255,0.35) 0%, rgba(var(--theme-very-light),0.2) 40%, rgba(var(--theme-very-light),0.1) 70%, transparent 100%) !important;
     backdrop-filter: blur(12px) saturate(150%) !important;
     -webkit-backdrop-filter: blur(12px) saturate(150%) !important;
     border: 1px solid rgba(255, 255, 255, 0.35) !important;
     box-shadow:
-        0 4px 16px rgba(0, 20, 60, 0.3),
+        0 4px 16px rgba(var(--theme-very-dark), 0.3),
         inset 0 1px 3px rgba(255, 255, 255, 0.4),
-        inset 0 -1px 2px rgba(0, 40, 100, 0.1) !important;
+        inset 0 -1px 2px rgba(var(--theme-very-dark), 0.1) !important;
 }
 
 .feedback-circle:hover {
-    border-color: rgba(180, 220, 255, 0.6) !important;
+    border-color: rgba(var(--theme-very-light), 0.6) !important;
     box-shadow:
-        0 8px 28px rgba(0, 30, 80, 0.4),
-        0 0 20px rgba(100, 180, 255, 0.2),
+        0 8px 28px rgba(var(--theme-very-dark), 0.4),
+        0 0 20px rgba(var(--theme-light), 0.2),
         inset 0 2px 4px rgba(255, 255, 255, 0.5) !important;
 }
 
@@ -4261,7 +4307,7 @@ html {
     -webkit-backdrop-filter: blur(16px) saturate(140%) !important;
     border: 1px solid rgba(255, 255, 255, 0.15) !important;
     box-shadow:
-        0 8px 24px rgba(0, 20, 60, 0.35),
+        0 8px 24px rgba(var(--theme-very-dark), 0.35),
         inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
     overflow: hidden !important;
 }

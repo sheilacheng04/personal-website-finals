@@ -152,6 +152,7 @@ const RAY_VERTEX = /* glsl */ `
 
 const RAY_FRAGMENT = /* glsl */ `
   uniform float uTime;
+  uniform vec3 uRayColor;
   varying vec2 vUv;
 
   void main() {
@@ -166,7 +167,7 @@ const RAY_FRAGMENT = /* glsl */ `
       ray *= (0.4 + 0.6 * sin(uTime * 0.25 + fi * 1.8));
       rays += ray * 0.09;
     }
-    gl_FragColor = vec4(vec3(0.3, 0.65, 0.95), rays);
+    gl_FragColor = vec4(uRayColor, rays);
   }
 `;
 
@@ -174,6 +175,7 @@ const RAY_FRAGMENT = /* glsl */ `
 
 const CAUSTIC_FRAGMENT = /* glsl */ `
   uniform float uTime;
+  uniform vec3 uCausticColor;
   varying vec2 vUv;
 
   // Simple caustic pattern using overlapping sine waves
@@ -196,7 +198,7 @@ const CAUSTIC_FRAGMENT = /* glsl */ `
     float edgeFade = smoothstep(0.0, 0.2, vUv.x) * smoothstep(1.0, 0.8, vUv.x)
                    * smoothstep(0.0, 0.3, vUv.y) * smoothstep(1.0, 0.7, vUv.y);
     float alpha = pattern * edgeFade * 0.35;
-    gl_FragColor = vec4(vec3(0.3, 0.7, 1.0), alpha);
+    gl_FragColor = vec4(uCausticColor, alpha);
   }
 `;
 
@@ -238,6 +240,20 @@ const SEAWEED_FRAGMENT = /* glsl */ `
     gl_FragColor = vec4(color, alpha);
   }
 `;
+
+// --------------- theme helper ---------------
+
+function getThemeColors() {
+  const style = getComputedStyle(document.documentElement);
+  const parse = (v) => v.split(',').map(Number);
+  const light = parse(style.getPropertyValue('--theme-light').trim() || '100,180,220');
+  const medium = parse(style.getPropertyValue('--theme-medium').trim() || '58,138,184');
+  const dark = parse(style.getPropertyValue('--theme-dark').trim() || '0,60,120');
+  const veryDark = parse(style.getPropertyValue('--theme-very-dark').trim() || '5,18,45');
+  const veryLight = parse(style.getPropertyValue('--theme-very-light').trim() || '120,200,255');
+  const hue = parseFloat(style.getPropertyValue('--theme-hue').trim() || '200');
+  return { light, medium, dark, veryDark, veryLight, hue };
+}
 
 // --------------- helpers ---------------
 
@@ -446,7 +462,7 @@ export default function AquariumScene() {
     const rayMat = new THREE.ShaderMaterial({
       vertexShader: RAY_VERTEX,
       fragmentShader: RAY_FRAGMENT,
-      uniforms: { uTime: { value: 0 } },
+      uniforms: { uTime: { value: 0 }, uRayColor: { value: new THREE.Vector3(0.3, 0.65, 0.95) } },
       transparent: true,
       depthWrite: false,
       blending: THREE.AdditiveBlending,
@@ -461,7 +477,7 @@ export default function AquariumScene() {
     const causticMat = new THREE.ShaderMaterial({
       vertexShader: RAY_VERTEX,
       fragmentShader: CAUSTIC_FRAGMENT,
-      uniforms: { uTime: { value: 0 } },
+      uniforms: { uTime: { value: 0 }, uCausticColor: { value: new THREE.Vector3(0.3, 0.7, 1.0) } },
       transparent: true,
       depthWrite: false,
       blending: THREE.AdditiveBlending,
@@ -494,10 +510,43 @@ export default function AquariumScene() {
 
     // --- animation loop ---
     const clock = new THREE.Clock();
+    let lastThemeCheck = 0;
+    let cachedHue = -1;
 
     const animate = () => {
       frameRef.current = requestAnimationFrame(animate);
       const t = clock.getElapsedTime();
+
+      // update theme colors every ~0.5s
+      if (t - lastThemeCheck > 0.5) {
+        lastThemeCheck = t;
+        const tc = getThemeColors();
+        if (tc.hue !== cachedHue) {
+          cachedHue = tc.hue;
+          const toF = (rgb) => [rgb[0] / 255, rgb[1] / 255, rgb[2] / 255];
+          const l = toF(tc.light);
+          const m = toF(tc.medium);
+          const d = toF(tc.dark);
+          const vd = toF(tc.veryDark);
+          // fog
+          scene.fog.color.setRGB(vd[0], vd[1], vd[2]);
+          // lights
+          ambientLight.color.setRGB(d[0] * 0.7, d[1] * 0.7, d[2] * 0.7);
+          dirLight.color.setRGB(l[0], l[1], l[2]);
+          pointLight.color.setRGB(m[0], m[1], m[2]);
+          // god-ray color
+          rayMat.uniforms.uRayColor.value.set(l[0], l[1], l[2]);
+          // caustic color
+          causticMat.uniforms.uCausticColor.value.set(l[0], l[1], l[2]);
+          // fog ring
+          fogMat.color.setRGB(vd[0], vd[1], vd[2]);
+          // gems: shift hue
+          gems.forEach(({ mat: gm }) => {
+            const gemHue = (tc.hue / 360) + Math.random() * 0.05;
+            gm.color.setHSL(gemHue, 0.7, 0.6);
+          });
+        }
+      }
 
       // uniforms
       mat.uniforms.uTime.value = t;

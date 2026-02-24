@@ -73,7 +73,7 @@ const FRAGMENT_SHADER = `
 export default function CausticsCanvas({
   opacity = 0.18,
   speed = 1.0,
-  color = [0.25, 0.6, 0.9],
+  color, // optional override; if not provided, reads from CSS theme
 }) {
   const canvasRef = useRef(null);
   const rafRef = useRef(null);
@@ -81,6 +81,17 @@ export default function CausticsCanvas({
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+
+    // Helper to read theme color from CSS variables
+    const getThemeColor = () => {
+      if (color) return color;
+      const raw = getComputedStyle(document.documentElement).getPropertyValue('--theme-light').trim();
+      if (raw) {
+        const parts = raw.split(',').map(Number);
+        if (parts.length === 3) return [parts[0] / 255, parts[1] / 255, parts[2] / 255];
+      }
+      return [0.25, 0.6, 0.9]; // fallback
+    };
 
     const gl = canvas.getContext('webgl', {
       alpha: true,
@@ -154,14 +165,23 @@ export default function CausticsCanvas({
     let lastFrame = 0;
     const TARGET_FPS = 30;
     const FRAME_MS = 1000 / TARGET_FPS;
+    let lastThemeCheck = 0;
+    let currentColor = getThemeColor();
     function render(now) {
       rafRef.current = requestAnimationFrame(render);
       if (now - lastFrame < FRAME_MS) return; // throttle to ~30fps
       lastFrame = now;
+
+      // Periodically re-read theme color
+      if (now - lastThemeCheck > 500) {
+        lastThemeCheck = now;
+        currentColor = getThemeColor();
+      }
+
       const t = ((now - start) / 1000) * speed;
       gl.uniform1f(uTime, t);
       gl.uniform2f(uRes, canvas.width, canvas.height);
-      gl.uniform3fv(uColor, color);
+      gl.uniform3fv(uColor, currentColor);
       gl.drawArrays(gl.TRIANGLES, 0, 6);
     }
     rafRef.current = requestAnimationFrame(render);

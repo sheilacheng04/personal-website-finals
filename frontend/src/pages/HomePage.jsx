@@ -155,7 +155,7 @@ export default function HomePage() {
       <GlassRefractionFilter />
 
       {/* Task 4: Caustic light-ray shader */}
-      <CausticsCanvas opacity={0.18} speed={1.0} color={[0.25, 0.6, 0.9]} />
+      <CausticsCanvas opacity={0.18} speed={1.0} />
 
       <WaterParticlesEffect containerRef={homeRef} />
 
